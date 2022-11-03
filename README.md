@@ -14,9 +14,32 @@
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 [![PR welcome](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
 
-## 📝 Description
+## 🤔 Do I need this?
 
-Trigger wandb offline syncs from a compute node without internet
+Do you
+
+- ✅ Use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
+- ✅ Run your ML experiments on a compute node without internet access?
+
+Then yes, this can be useful.
+You probably have been using `export WANDB_MODE="offline"` and then ran something like
+
+```bash
+for d in $(ls -t -d */);do cd $d; wandb sync --sync-all; cd ..; done
+```
+
+to sync all runs from the head node (with internet access) after they have terminated.
+However, obviously this is not very satisfying as it doesn't update live.
+Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take a while and it's just not very elegant.
+
+### How does `wandb-osh` solve the problem?
+
+1. You add a hook for `ray tune` or `wandb` that is called every time an epoch concludes (that is, when we want to trigger a sync).
+2. You start the `wandb-osh` script in your head node with internet access. This script will now trigger `wandb sync` upon request from one of the compute nodes.
+
+### How is this implemented?
+
+Very simple: Every time an epoch concludes, the hook gets called and creates a file in a "communication directory" (`~/.wandb_osh_communication`) by default. `wandb-osh` scans that directory and reads synchronization instructions from such files.
 
 ## 📦 Installation
 
