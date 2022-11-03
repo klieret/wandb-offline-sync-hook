@@ -60,11 +60,40 @@ pip3 install '.[ray]'
 
 Two steps: Set up the hook, then run the script from your head node.
 
-### Setting up the hook
+### Step 1: Setting up the hook
+
+#### With wandb
+
+Let's adapt the [simple pytorch example](https://docs.wandb.ai/guides/integrations/pytorch) from the wandb docs (it only takes 3 lines!):
+
+```python
+import wandb
+from wandb_osh.hooks import TriggerWandbSyncHook  # <-- New!
+
+
+trigger_sync = TriggerWandbSyncHook()  # <--- New!
+
+wandb.init(config=args)
+
+model = ... # set up your model
+
+# Magic
+wandb.watch(model, log_freq=100)
+
+model.train()
+for batch_idx, (data, target) in enumerate(train_loader):
+    output = model(data)
+    loss = F.nll_loss(output, target)
+    loss.backward()
+    optimizer.step()
+    if batch_idx % args.log_interval == 0:
+        wandb.log({"loss": loss})
+        trigger_sync()  # <-- New!
+```
 
 #### With ray tune
 
-You probably already use the `wandb` callback. We simply add a second callback for `wandb-osh`:
+You probably already use the `WandbLoggerCallback` callback. We simply add a second callback for `wandb-osh` (it only takes one new line!):
 
 ```python
 from wandb_osh.ray_hooks import TriggerWandbSyncRayHook
@@ -84,7 +113,7 @@ tuner = tune.Tuner(
 )
 ```
 
-### Running the script on the head node
+### Step 2: Running the script on the head node
 
 After installation, you should have a `wandb-osh` script in your `$PATH`. Simply call it like this:
 

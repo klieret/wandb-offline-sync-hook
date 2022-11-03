@@ -3,6 +3,8 @@ from __future__ import annotations
 from os import PathLike
 from pathlib import Path
 
+import wandb
+
 from wandb_osh.util.log import logger
 
 _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
@@ -18,7 +20,7 @@ class TriggerWandbSyncHook:
         self.communication_dir = Path(communication_dir)
         self.communication_dir.mkdir(parents=True, exist_ok=True)
 
-    def trigger(self, logdir: PathLike):
+    def __call__(self, logdir: PathLike | None = None):
         """Trigger synchronization on the head nodes
 
         Args:
@@ -27,6 +29,8 @@ class TriggerWandbSyncHook:
         Returns:
             None
         """
+        if logdir is None:
+            logdir = wandb.run.dir
         trial_dir = Path(logdir)
         command_file = self.communication_dir / f"{trial_dir.name}.command"
         if command_file.is_file():
