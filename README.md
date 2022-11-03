@@ -14,21 +14,24 @@
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 [![PR welcome](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
 
-## 🤔 Do I need this?
+## 🤔 What is this?
 
 Do you
 
 - ✅ Use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
-- ✅ Run your ML experiments on a compute node without internet access?
+- ✅ Run your ML experiments on a compute node without internet access (for example, using a batch system)?
 
-Then yes, this can be useful.
+Then this package can be useful.
+
+### What you might have been doing so far
+
 You probably have been using `export WANDB_MODE="offline"` and then ran something like
 
 ```bash
 for d in $(ls -t -d */);do cd $d; wandb sync --sync-all; cd ..; done
 ```
 
-to sync all runs from the head node (with internet access) after they have terminated.
+on the result directory to sync all runs from your head node (with internet access) every now and then.
 However, obviously this is not very satisfying as it doesn't update live.
 Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take a while and it's just not very elegant.
 
@@ -43,7 +46,67 @@ Very simple: Every time an epoch concludes, the hook gets called and creates a f
 
 ## 📦 Installation
 
+```
+pip3 install .
+```
+
+If you want to use this package with `ray`, use
+
+```
+pip3 install '.[ray]'
+```
+
 ## 🔥 Running it!
+
+### Setting up the hooks
+
+#### With ray tune
+
+You probably already use the `wandb` callback. We simply add a second callback for `wandb-osh`:
+
+```python
+from wandb_osh.ray_hooks import TriggerWandbSyncHook
+
+
+callbacks = [
+    WandbLoggerCallback(...),  # <-- ray tune documentation tells you about this
+    TriggerWandbSyncHook(),    # <-- New!
+]
+
+tuner = tune.Tuner(
+    trainable,
+    tune_config=...,
+    run_config=RunConfig(
+        ...,
+        callbacks=callbacks,
+    ),
+)
+```
+
+### Running the script on the head node
+
+After installation, you should have a `wandb-osh` script in your `$PATH`. Simply call it like this:
+
+```
+wandb-osh
+```
+
+The output will look something like this:
+
+```
+INFO: Starting to watch /home/kl5675/.wandb_osh_command_dir
+INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_b1f60706_4_attr_pt_thld=0.0273,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-42
+Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_b1f60706_4_attr_pt_thld=0.0273,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-42/wandb/debug-cli.kl5675.log
+Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/b1f60706 ... done.
+INFO: Finished syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_b1f60706_4_attr_pt_thld=0.0273,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-42
+INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_92a3ef1b_1_attr_pt_thld=0.0225,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-07-49
+Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_92a3ef1b_1_attr_pt_thld=0.0225,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-07-49/wandb/debug-cli.kl5675.log
+Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/92a3ef1b ... done.
+INFO: Finished syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_92a3ef1b_1_attr_pt_thld=0.0225,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-07-49
+INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_a2caa9c0_2_attr_pt_thld=0.0092,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-17
+Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_a2caa9c0_2_attr_pt_thld=0.0092,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-17/wandb/debug-cli.kl5675.log
+Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/a2caa9c0 ... done.
+```
 
 ## 🧰 Development setup
 
