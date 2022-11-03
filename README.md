@@ -58,19 +58,20 @@ pip3 install '.[ray]'
 
 ## 🔥 Running it!
 
-### Setting up the hooks
+Two steps: Set up the hook, then run the script from your head node.
+
+### Setting up the hook
 
 #### With ray tune
 
 You probably already use the `wandb` callback. We simply add a second callback for `wandb-osh`:
 
 ```python
-from wandb_osh.ray_hooks import TriggerWandbSyncHook
-
+from wandb_osh.ray_hooks import TriggerWandbSyncRayHook
 
 callbacks = [
     WandbLoggerCallback(...),  # <-- ray tune documentation tells you about this
-    TriggerWandbSyncHook(),    # <-- New!
+    TriggerWandbSyncRayHook(),  # <-- New!
 ]
 
 tuner = tune.Tuner(
