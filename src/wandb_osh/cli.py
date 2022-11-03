@@ -14,7 +14,7 @@ _command_dir_default = Path("~/.wandb_osh_command_dir").expanduser()
 def sync_dir(dir: PathLike):
     """Call wandb sync on a directory."""
     dir = Path(dir)
-    subprocess.run(["wandb", "sync", "--sync-all", dir.resolve()])
+    subprocess.run(["wandb", "sync", "--sync-all"], cwd=dir)
 
 
 @click.command()
