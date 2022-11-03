@@ -24,8 +24,8 @@ def sync_dir(dir: PathLike):
     type=click.Path(exists=True, file_okay=False),
     show_default=True,
 )
-@click.option("--wait", default=10, show_default=True)
-def main(command_dir: PathLike = _command_dir_default, wait: int = 10) -> None:
+@click.option("--wait", default=1, show_default=True)
+def main(command_dir: PathLike = _command_dir_default, wait: int = 1) -> None:
     """Main loop
 
     Args:
@@ -36,9 +36,18 @@ def main(command_dir: PathLike = _command_dir_default, wait: int = 10) -> None:
         None
     """
     command_dir = Path(command_dir)
+    logger.info("Starting to watch %s", command_dir)
+    showed_nexist_warning = False
     while True:
         if not command_dir.is_dir():
-            logger.warning("Command dir %s does not yet exist. Skipping. ", command_dir)
+            if not showed_nexist_warning:
+                logger.warning(
+                    "Command dir %s does not yet exist. Skipping. Either no trial has "
+                    "completed yet, or you do not use the same directory for your "
+                    "hook.",
+                    command_dir,
+                )
+                showed_nexist_warning = True
             time.sleep(wait)
             continue
 
