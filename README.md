@@ -1,18 +1,17 @@
-# Sync runs to wandb when your compute nodes do not have internet
+<div align="center">
+<h1>Wandb Offline Sync Hook</h1>
+<em>A convenient way to trigger synchronizations to wandb if your compute nodes don't have internet!</em>
+<p/>
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-<!-- [![Documentation Status](https://readthedocs.org/projects/wandb-offline-sync-hook/badge/?version=latest)](https://wandb-offline-sync-hook.readthedocs.io/) -->
-<!-- [![Pypi status](https://badge.fury.io/py/wandb-offline-sync-hook.svg)](https://pypi.org/project/wandb-offline-sync-hook/) -->
-
+[![PR welcome](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/klieret/wandb-offline-sync-hook/main.svg)](https://results.pre-commit.ci/latest/github/klieret/wandb-offline-sync-hook/main)
 [![gh actions](https://github.com/klieret/wandb-offline-sync-hook/actions/workflows/test.yaml/badge.svg)](https://github.com/klieret/wandb-offline-sync-hook/actions)
 [![link checker](https://github.com/klieret/wandb-offline-sync-hook/actions/workflows/check-links.yaml/badge.svg)](https://github.com/klieret/wandb-offline-sync-hook/actions)
 [![Coveralls](https://coveralls.io/repos/github/klieret/wandb-offline-sync-hook/badge.svg?branch=main)](https://coveralls.io/github/klieret/wandb-offline-sync-hook?branch=main)
 [![gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.dev)
-[![License](https://img.shields.io/github/license/klieret/wandb-offline-sync-hook)](https://github.com/klieret/wandb-offline-sync-hook/blob/master/LICENSE.txt)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
-[![PR welcome](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
+
+</div>
 
 ## 🤔 What is this?
 
@@ -37,7 +36,7 @@ Sure, you could throw this in a `while True` loop, but if you have a lot of tria
 
 ### How does `wandb-osh` solve the problem?
 
-1. You add a hook for `ray tune` or `wandb` that is called every time an epoch concludes (that is, when we want to trigger a sync).
+1. You add a hook that is called every time an epoch concludes (that is, when we want to trigger a sync).
 2. You start the `wandb-osh` script in your head node with internet access. This script will now trigger `wandb sync` upon request from one of the compute nodes.
 
 ### How is this implemented?
