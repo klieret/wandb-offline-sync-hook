@@ -11,8 +11,13 @@ from wandb_osh.util.log import logger
 _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
 
 
-class TriggerSyncHook(LoggerCallback):
+class TriggerWandbSyncHook(LoggerCallback):
     def __init__(self, communication_dir: PathLike = _comm_default_dir):
+        """Hook to be used when interfacing wandb with ray tune.
+
+        Args:
+            communication_dir: Directory used for communication with wandb-osh.
+        """
         super().__init__()
         self.communication_dir = Path(communication_dir)
         self.communication_dir.mkdir(parents=True, exist_ok=True)
