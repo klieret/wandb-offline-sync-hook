@@ -1,4 +1,4 @@
-# wandb-offline-sync-hook
+# Sync runs to wandb when your compute nodes do not have internet
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->

@@ -37,6 +37,11 @@ def main(command_dir: PathLike = _command_dir_default, wait: int = 10) -> None:
     """
     command_dir = Path(command_dir)
     while True:
+        if not command_dir.is_dir():
+            logger.warning("Command dir %s does not yet exist. Skipping. ", command_dir)
+            time.sleep(wait)
+            continue
+
         for command_file in command_dir.glob("*.command"):
             dir = Path(command_file.read_text())
             if not dir.is_dir():
