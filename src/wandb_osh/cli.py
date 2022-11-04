@@ -51,6 +51,7 @@ def main(command_dir: PathLike = _command_dir_default, wait: int = 1) -> None:
             time.sleep(wait)
             continue
 
+        start_time = time.time()
         for command_file in command_dir.glob("*.command"):
             dir = Path(command_file.read_text())
             if not dir.is_dir():
@@ -60,12 +61,12 @@ def main(command_dir: PathLike = _command_dir_default, wait: int = 1) -> None:
                     dir,
                 )
                 continue
-            logger.info("Syncing %s", dir)
+            logger.info("Syncing %s...", dir)
             sync_dir(dir)
-            logger.info("Finished syncing %s", dir)
+            logger.info("Syncing Done")
             command_file.unlink()
 
-        time.sleep(wait)
+        time.sleep(max(0.0, (time.time() - start_time) - wait))
 
 
 if __name__ == "__main__":
