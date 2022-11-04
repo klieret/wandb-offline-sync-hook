@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +18,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+      - name: Install dependencies != 3.11
+        if: ${{ matrix.python-version < '3.11' }}
           pip install .[testing,ray]
+      - name: Install dependencies >= 3.11
+        if: ${{ matrix.python-version >= '3.11' }}
+          pip install .[testing]
       - name: Test with pytest
         run: |
           pytest
