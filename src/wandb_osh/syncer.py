@@ -6,9 +6,8 @@ import time
 from os import PathLike
 from pathlib import Path
 
-from gnn_tracking.utils.log import logger
-
 from wandb_osh.config import _command_dir_default
+from wandb_osh.util.log import logger
 
 
 class WandbSyncer:
