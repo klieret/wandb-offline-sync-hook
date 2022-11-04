@@ -72,7 +72,7 @@ from wandb_osh.hooks import TriggerWandbSyncHook  # <-- New!
 
 trigger_sync = TriggerWandbSyncHook()  # <--- New!
 
-wandb.init(config=args)
+wandb.init(config=args, mode="offline")
 
 model = ... # set up your model
 
@@ -95,7 +95,11 @@ for batch_idx, (data, target) in enumerate(train_loader):
 You probably already use the `WandbLoggerCallback` callback. We simply add a second callback for `wandb-osh` (it only takes one new line!):
 
 ```python
+import os
 from wandb_osh.ray_hooks import TriggerWandbSyncRayHook
+
+
+os.environ["WANDB_MODE"] = "offline"
 
 callbacks = [
     WandbLoggerCallback(...),  # <-- ray tune documentation tells you about this
