@@ -17,6 +17,58 @@ def sync_dir(dir: PathLike):
     subprocess.run(["wandb", "sync", "--sync-all"], cwd=dir)
 
 
+class WandbOSH:
+    def __init__(self, command_dir: PathLike = _command_dir_default, wait: int = 1):
+        self.command_dir = Path(command_dir)
+        self.command_dir.mkdir(parents=True, exist_ok=True)
+        self.wait = wait
+
+    def sync(self, dir: PathLike):
+        """Sync a directory.
+
+        Args:
+            dir: Directory with wandb files to be synced
+        """
+        sync_dir(dir)
+
+    def _handle_command_file(self, command_file: Path):
+        dir = Path(command_file.read_text())
+        if not dir.is_dir():
+            logger.error(
+                "Command file %s points to non-existing directory %s",
+                command_file,
+                dir,
+            )
+            return
+        logger.info("Syncing %s...", dir)
+        self.sync(dir)
+        logger.info("Syncing Done")
+        command_file.unlink()
+
+    def check_directory(self, dir: PathLike):
+        pass
+
+    def loop(self):
+        logger.info("Starting to watch %s", self.command_dir)
+        showed_nexist_warning = False
+        while True:
+            if not self.command_dir.is_dir():
+                if not showed_nexist_warning:
+                    logger.warning(
+                        "Command dir %s does not yet exist. Skipping. Either no trial "
+                        "has completed yet, or you do not use the same directory for "
+                        "your hook.",
+                        self.command_dir,
+                    )
+                    showed_nexist_warning = True
+                time.sleep(self.wait)
+                continue
+            start_time = time.time()
+            for command_file in self.command_dir.glob("*.command"):
+                self._handle_command_file(command_file)
+            time.sleep(max(0.0, (time.time() - start_time) - self.wait))
+
+
 @click.command()
 @click.option(
     "--command-dir",
@@ -35,38 +87,8 @@ def main(command_dir: PathLike = _command_dir_default, wait: int = 1) -> None:
     Returns:
         None
     """
-    command_dir = Path(command_dir)
-    logger.info("Starting to watch %s", command_dir)
-    showed_nexist_warning = False
-    while True:
-        if not command_dir.is_dir():
-            if not showed_nexist_warning:
-                logger.warning(
-                    "Command dir %s does not yet exist. Skipping. Either no trial has "
-                    "completed yet, or you do not use the same directory for your "
-                    "hook.",
-                    command_dir,
-                )
-                showed_nexist_warning = True
-            time.sleep(wait)
-            continue
-
-        start_time = time.time()
-        for command_file in command_dir.glob("*.command"):
-            dir = Path(command_file.read_text())
-            if not dir.is_dir():
-                logger.error(
-                    "Command file %s points to non-existing directory %s",
-                    command_file,
-                    dir,
-                )
-                continue
-            logger.info("Syncing %s...", dir)
-            sync_dir(dir)
-            logger.info("Syncing Done")
-            command_file.unlink()
-
-        time.sleep(max(0.0, (time.time() - start_time) - wait))
+    wandb_osh = WandbOSH(command_dir=command_dir, wait=wait)
+    wandb_osh.loop()
 
 
 if __name__ == "__main__":
