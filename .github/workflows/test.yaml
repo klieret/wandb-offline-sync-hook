@@ -20,9 +20,11 @@ jobs:
           python -m pip install --upgrade pip
       - name: Install dependencies != 3.11
         if: ${{ matrix.python-version < '3.11' }}
+        run: |
           pip install .[testing,ray]
       - name: Install dependencies >= 3.11
         if: ${{ matrix.python-version >= '3.11' }}
+        run: |
           pip install .[testing]
       - name: Test with pytest
         run: |
