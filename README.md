@@ -26,7 +26,7 @@ Then this package can be useful.
 
 <div align="center">
 
-![](readme_assets/diagram.png)
+![](https://user-images.githubusercontent.com/13602468/200086359-507b8653-e999-4cb3-ac93-ba1d175d2016.png)
 
 </div>
 
