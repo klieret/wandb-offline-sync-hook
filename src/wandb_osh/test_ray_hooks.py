@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import logging
 
-from wandb_osh.ray_hooks import TriggerWandbSyncRayHook
+import pytest
+
+_ray = pytest.importorskip("ray")
+from wandb_osh.ray_hooks import TriggerWandbSyncRayHook  # noqa: E402
 
 
 class MockTrial:
