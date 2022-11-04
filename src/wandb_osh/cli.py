@@ -6,7 +6,7 @@ from wandb_osh.config import _command_dir_default
 from wandb_osh.syncer import WandbSyncer
 
 
-def main() -> None:
+def main(argv=None) -> None:
     parser = ArgumentParser(description="Wandb offline syncer.")
     parser.add_argument(
         "--command-dir",
@@ -19,7 +19,7 @@ def main() -> None:
         default=_command_dir_default,
         help="Minimal time that has to pass before checking the command dir again.",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     wandb_osh = WandbSyncer(command_dir=args.command_dir, wait=args.wait)
     wandb_osh.loop()
 
