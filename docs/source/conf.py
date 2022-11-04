@@ -19,7 +19,7 @@ extensions.append("autoapi.extension")
 
 autoapi_type = "python"
 autoapi_dirs = ["../../src/wandb_osh"]
-autoapi_ignore = []
+autoapi_ignore = ["*/test_*.py"]
 
 templates_path = ["_templates"]
 exclude_patterns = []
