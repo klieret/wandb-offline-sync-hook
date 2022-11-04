@@ -1,32 +1,26 @@
 from __future__ import annotations
 
-from os import PathLike
-
-import click
+from argparse import ArgumentParser
 
 from wandb_osh.config import _command_dir_default
 from wandb_osh.syncer import WandbSyncer
 
 
-@click.command()
-@click.option(
-    "--command-dir",
-    default=_command_dir_default,
-    type=click.Path(file_okay=False),
-    show_default=True,
-)
-@click.option("--wait", default=1, show_default=True)
-def main(command_dir: PathLike = _command_dir_default, wait: int = 1) -> None:
-    """Main loop
-
-    Args:
-        command_dir: Directory to look for command files
-        wait:  How much to wait between syncings?
-
-    Returns:
-        None
-    """
-    wandb_osh = WandbSyncer(command_dir=command_dir, wait=wait)
+def main() -> None:
+    parser = ArgumentParser(description="Wandb offline syncer.")
+    parser.add_argument(
+        "--command-dir",
+        default=_command_dir_default,
+        help="Command dir: Directory in which the hook creates files to trigger a "
+        "synchronization.",
+    )
+    parser.add_argument(
+        "--wait",
+        default=_command_dir_default,
+        help="Minimal time that has to pass before checking the command dir again.",
+    )
+    args = parser.parse_args()
+    wandb_osh = WandbSyncer(command_dir=args.command_dir, wait=args.wait)
     wandb_osh.loop()
 
 
