@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Wandb Offline Sync Hook</h1>
 <em>A convenient way to trigger synchronizations to wandb if your compute nodes don't have internet!</em>
-<p/>
+<p></p>
 
 [![PR welcome](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/klieret/wandb-offline-sync-hook/main.svg)](https://results.pre-commit.ci/latest/github/klieret/wandb-offline-sync-hook/main)
@@ -18,9 +18,16 @@
 Do you
 
 - ✅ Use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
-- ✅ Run your ML experiments on a compute node without internet access (for example, using a batch system)?
+- ✅ Run your ML experiments on compute nodes without internet access (for example, using a batch system)?
+- ✅ Compute nodes and head nodes have access to a shared file system
 
 Then this package can be useful.
+
+<div align="center">
+
+![](readme_assets/diagram.png)
+
+</div>
 
 ### What you might have been doing so far
 
