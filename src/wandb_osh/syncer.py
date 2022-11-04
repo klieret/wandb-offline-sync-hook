@@ -11,9 +11,17 @@ from wandb_osh.util.log import logger
 
 
 class WandbSyncer:
-    def __init__(self, command_dir: PathLike = _command_dir_default, wait: int = 1):
+    def __init__(
+        self,
+        command_dir: PathLike = _command_dir_default,
+        wait: int = 1,
+        wandb_options: list[str] | None = None,
+    ):
+        if wandb_options is None:
+            wandb_options = []
         self.command_dir = Path(command_dir)
         self.wait = wait
+        self.wandb_options = wandb_options
 
     def sync(self, dir: PathLike):
         """Sync a directory.
@@ -21,7 +29,7 @@ class WandbSyncer:
         Args:
             dir: Directory with wandb files to be synced
         """
-        sync_dir(dir)
+        sync_dir(dir, options=self.wandb_options)
 
     def _handle_command_file(self, command_file: Path):
         dir = Path(command_file.read_text())
@@ -50,10 +58,12 @@ class WandbSyncer:
             time.sleep(max(0.0, (time.time() - start_time) - self.wait))
 
 
-def sync_dir(dir: PathLike) -> None:
+def sync_dir(dir: PathLike, options: list[str] | None = None) -> None:
     """Call wandb sync on a directory."""
+    if options is None:
+        options = []
     dir = Path(dir)
-    command = ["wandb", "sync", "--sync-all"]
+    command = ["wandb", "sync", *options]
     if "PYTEST_CURRENT_TEST" in os.environ:
         logger.debug("Testing mode enabled. Not actually calling wandb.")
         logger.debug("Command would be: %s in %s", " ".join(command), dir)
