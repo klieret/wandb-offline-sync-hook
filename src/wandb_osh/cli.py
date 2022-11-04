@@ -45,9 +45,6 @@ class WandbOSH:
         logger.info("Syncing Done")
         command_file.unlink()
 
-    def check_directory(self, dir: PathLike):
-        pass
-
     def loop(self):
         logger.info("Starting to watch %s", self.command_dir)
         while True:

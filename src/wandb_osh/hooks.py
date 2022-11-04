@@ -20,7 +20,7 @@ class TriggerWandbSyncHook:
         self.communication_dir = Path(communication_dir)
         self.communication_dir.mkdir(parents=True, exist_ok=True)
 
-    def __call__(self, logdir: PathLike | None = None):
+    def __call__(self, logdir: str | PathLike | None = None):
         """Trigger synchronization on the head nodes
 
         Args:
