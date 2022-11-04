@@ -116,6 +116,12 @@ tuner = tune.Tuner(
 )
 ```
 
+#### With anything else
+
+Simply take the `TriggerWandbSyncHook` class and use it as a callback in your training
+loop (as in the `wandb` example above), passing the directory that `wandb` is syncing
+to as an argument.
+
 ### Step 2: Running the script on the head node
 
 After installation, you should have a `wandb-osh` script in your `$PATH`. Simply call it like this:
