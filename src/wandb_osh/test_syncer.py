@@ -18,6 +18,4 @@ def test_wandb_syncer(tmp_path, caplog):
     target.mkdir(parents=True)
     with caplog.at_level(logging.DEBUG):
         ws.loop()
-    assert (
-        f"Command would be: wandb sync --sync-all in {target.resolve()}" in caplog.text
-    )
+    assert f"Command would be: wandb sync in {target.resolve()}" in caplog.text
