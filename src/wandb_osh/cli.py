@@ -20,7 +20,6 @@ def sync_dir(dir: PathLike):
 class WandbOSH:
     def __init__(self, command_dir: PathLike = _command_dir_default, wait: int = 1):
         self.command_dir = Path(command_dir)
-        self.command_dir.mkdir(parents=True, exist_ok=True)
         self.wait = wait
 
     def sync(self, dir: PathLike):
@@ -51,19 +50,8 @@ class WandbOSH:
 
     def loop(self):
         logger.info("Starting to watch %s", self.command_dir)
-        showed_nexist_warning = False
         while True:
-            if not self.command_dir.is_dir():
-                if not showed_nexist_warning:
-                    logger.warning(
-                        "Command dir %s does not yet exist. Skipping. Either no trial "
-                        "has completed yet, or you do not use the same directory for "
-                        "your hook.",
-                        self.command_dir,
-                    )
-                    showed_nexist_warning = True
-                time.sleep(self.wait)
-                continue
+            self.command_dir.mkdir(parents=True, exist_ok=True)
             start_time = time.time()
             for command_file in self.command_dir.glob("*.command"):
                 self._handle_command_file(command_file)
