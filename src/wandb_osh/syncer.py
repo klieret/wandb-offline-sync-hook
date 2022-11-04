@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import time
 from os import PathLike
@@ -41,14 +42,21 @@ class WandbSyncer:
     def loop(self):
         logger.info("Starting to watch %s", self.command_dir)
         while True:
-            self.command_dir.mkdir(parents=True, exist_ok=True)
             start_time = time.time()
+            self.command_dir.mkdir(parents=True, exist_ok=True)
             for command_file in self.command_dir.glob("*.command"):
                 self._handle_command_file(command_file)
+            if "PYTEST_CURRENT_TEST" in os.environ:
+                break
             time.sleep(max(0.0, (time.time() - start_time) - self.wait))
 
 
-def sync_dir(dir: PathLike):
+def sync_dir(dir: PathLike) -> None:
     """Call wandb sync on a directory."""
     dir = Path(dir)
-    subprocess.run(["wandb", "sync", "--sync-all"], cwd=dir)
+    command = ["wandb", "sync", "--sync-all"]
+    if "PYTEST_CURRENT_TEST" in os.environ:
+        logger.debug("Testing mode enabled. Not actually calling wandb.")
+        logger.debug("Command would be: %s in %s", " ".join(command), dir)
+        return
+    subprocess.run(command, cwd=dir)
