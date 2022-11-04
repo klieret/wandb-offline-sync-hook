@@ -12,7 +12,7 @@ from wandb_osh.syncer import WandbSyncer
 @click.option(
     "--command-dir",
     default=_command_dir_default,
-    type=click.Path(exists=True, file_okay=False),
+    type=click.Path(file_okay=False),
     show_default=True,
 )
 @click.option("--wait", default=1, show_default=True)
