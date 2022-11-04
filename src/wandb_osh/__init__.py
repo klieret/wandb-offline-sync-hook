@@ -1,5 +1,8 @@
 from __future__ import annotations
 
-import importlib.metadata
+try:
+    from importlib.metadata import version
+except ModuleNotFoundError:
+    from importlib_metadata import version  # type: ignore
 
-__version__ = importlib.metadata.version("wandb_osh")
+__version__ = version("wandb_osh")
