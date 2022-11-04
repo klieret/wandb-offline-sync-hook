@@ -39,6 +39,7 @@ class WandbOSH:
                 command_file,
                 dir,
             )
+            command_file.unlink()
             return
         logger.info("Syncing %s...", dir)
         self.sync(dir)
