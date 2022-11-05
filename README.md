@@ -49,7 +49,7 @@ Sure, you could throw this in a `while True` loop, but if you have a lot of tria
 
 ### How is this implemented?
 
-Very simple: Every time an epoch concludes, the hook gets called and creates a file in a *communication directory* (`~/.wandb_osh_communication` by default). `wandb-osh` scans the communication directory and reads synchronization instructions from such files.
+Very simple: Every time an epoch concludes, the hook gets called and creates a file in a _communication directory_ (`~/.wandb_osh_communication` by default). `wandb-osh` scans the communication directory and reads synchronization instructions from such files.
 
 ## 📦 Installation
 
