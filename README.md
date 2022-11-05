@@ -54,13 +54,13 @@ Very simple: Every time an epoch concludes, the hook gets called and creates a f
 ## 📦 Installation
 
 ```
-pip3 install .
+pip3 install wandb-osh
 ```
 
 If you want to use this package with `ray`, use
 
 ```
-pip3 install '.[ray]'
+pip3 install 'wandb-osh.[ray]'
 ```
 
 ## 🔥 Running it!
