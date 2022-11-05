@@ -38,7 +38,7 @@ for d in $(ls -t -d */);do cd $d; wandb sync --sync-all; cd ..; done
 
 on the result directory to sync all runs from your head node (with internet access) every now and then.
 However, obviously this is not very satisfying as it doesn't update live.
-Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take a while and it's just not very elegant.
+Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take forever, cause unnecessary network traffic and it's just not very elegant.
 
 ### How does `wandb-osh` solve the problem?
 
