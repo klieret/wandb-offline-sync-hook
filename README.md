@@ -16,11 +16,9 @@
 
 ## 🤔 What is this?
 
-Do you
-
-- ✅ Use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
-- ✅ Run your ML experiments on compute nodes without internet access (for example, using a batch system)?
-- ✅ Compute nodes and head nodes have access to a shared file system
+- ✅ You use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
+- ✅ You your ML experiments on compute nodes without internet access (for example, using a batch system)?
+- ✅ Your Ccmpute nodes and head nodes have access to a shared file system?
 
 Then this package can be useful.
 
