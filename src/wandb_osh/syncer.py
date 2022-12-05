@@ -39,17 +39,17 @@ class WandbSyncer:
         sync_dir(dir, options=self.wandb_options)
 
     def _handle_command_file(self, command_file: Path):
-        dir = Path(command_file.read_text())
-        if not dir.is_dir():
+        target = Path(command_file.read_text())
+        if not target.is_dir():
             logger.error(
                 "Command file %s points to non-existing directory %s",
                 command_file,
-                dir,
+                target,
             )
             command_file.unlink()
             return
-        logger.info("Syncing %s...", dir)
-        self.sync(dir)
+        logger.info("Syncing %s...", target)
+        self.sync(target)
         logger.info("Syncing Done")
         command_file.unlink()
 
