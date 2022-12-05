@@ -30,7 +30,6 @@ def main(argv=None) -> None:
         help="Options to be passed on to 'wandb sync', e.g. '--sync-all'",
     )
     args = parser.parse_args(argv)
-    print(dir(args))
     wandb_osh = WandbSyncer(
         command_dir=args.command_dir, wait=args.wait, wandb_options=args.wandb_options
     )

@@ -17,6 +17,13 @@ class WandbSyncer:
         wait: int = 1,
         wandb_options: list[str] | None = None,
     ):
+        """
+
+        Args:
+            command_dir: Directory used for communication
+            wait:
+            wandb_options: Options to pass on to wandb
+        """
         if wandb_options is None:
             wandb_options = []
         self.command_dir = Path(command_dir)
