@@ -3,8 +3,8 @@ from __future__ import annotations
 from os import PathLike
 from pathlib import Path
 
+from ray.tune.experiment.trial import Trial
 from ray.tune.logger import LoggerCallback
-from ray.tune.trial import Trial
 
 from wandb_osh.hooks import TriggerWandbSyncHook
 
