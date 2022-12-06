@@ -61,7 +61,8 @@ class WandbSyncer:
                 self.sync(target)
             time.sleep(0.25)
             for cf in command_files:
-                cf.unlink(missing_ok=True)
+                if cf.is_file():
+                    cf.unlink()
             if "PYTEST_CURRENT_TEST" in os.environ:
                 break
             time.sleep(max(0.0, (time.time() - start_time) - self.wait))
