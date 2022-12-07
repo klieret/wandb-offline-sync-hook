@@ -4,6 +4,8 @@
 <p></p>
 
 [![Documentation Status](https://readthedocs.org/projects/wandb-offline-sync-hook/badge/?version=latest)](https://wandb-offline-sync-hook.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/wandb-osh.svg)](https://pypi.org/project/wandb-osh)
+[![Python 3.7‒3.11](https://img.shields.io/badge/python-3.7%E2%80%923.11-blue)](https://www.python.org)
 [![PR welcome](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/klieret/wandb-offline-sync-hook/main.svg)](https://results.pre-commit.ci/latest/github/klieret/wandb-offline-sync-hook/main)
 [![.github/workflows/test.yaml](https://github.com/klieret/wandb-offline-sync-hook/actions/workflows/test.yaml/badge.svg)](https://github.com/klieret/wandb-offline-sync-hook/actions/workflows/test.yaml)
@@ -16,11 +18,9 @@
 
 ## 🤔 What is this?
 
-Do you
-
-- ✅ Use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
-- ✅ Run your ML experiments on compute nodes without internet access (for example, using a batch system)?
-- ✅ Compute nodes and head nodes have access to a shared file system
+- ✅ You use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
+- ✅ Your ML experiments run on compute nodes without internet access (for example, using a batch system)?
+- ✅ Your compute nodes and head nodes have access to a shared file system?
 
 Then this package can be useful.
 
@@ -40,7 +40,7 @@ for d in $(ls -t -d */);do cd $d; wandb sync --sync-all; cd ..; done
 
 on the result directory to sync all runs from your head node (with internet access) every now and then.
 However, obviously this is not very satisfying as it doesn't update live.
-Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take a while and it's just not very elegant.
+Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take forever, [cause unnecessary network traffic](https://github.com/wandb/wandb/issues/2887) and it's just not very elegant.
 
 ### How does `wandb-osh` solve the problem?
 
