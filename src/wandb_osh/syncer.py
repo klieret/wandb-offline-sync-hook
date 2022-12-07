@@ -38,28 +38,31 @@ class WandbSyncer:
         """
         sync_dir(dir, options=self.wandb_options)
 
-    def _handle_command_file(self, command_file: Path):
-        target = Path(command_file.read_text())
-        if not target.is_dir():
-            logger.error(
-                "Command file %s points to non-existing directory %s",
-                command_file,
-                target,
-            )
-            command_file.unlink()
-            return
-        logger.info("Syncing %s...", target)
-        self.sync(target)
-        logger.info("Syncing Done")
-        command_file.unlink()
-
     def loop(self):
         logger.info("Starting to watch %s", self.command_dir)
         while True:
             start_time = time.time()
             self.command_dir.mkdir(parents=True, exist_ok=True)
+            command_files = []
+            targets = []
             for command_file in self.command_dir.glob("*.command"):
-                self._handle_command_file(command_file)
+                target = Path(command_file.read_text())
+                command_files.append(command_file)
+                if not target.is_dir():
+                    logger.error(
+                        "Command file %s points to non-existing directory %s",
+                        command_file,
+                        target,
+                    )
+                    continue
+                targets.append(target)
+            for target in set(targets):
+                logger.info("Syncing %s...", target)
+                self.sync(target)
+            time.sleep(0.25)
+            for cf in command_files:
+                if cf.is_file():
+                    cf.unlink()
             if "PYTEST_CURRENT_TEST" in os.environ:
                 break
             time.sleep(max(0.0, (time.time() - start_time) - self.wait))
