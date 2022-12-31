@@ -2,3 +2,6 @@
 minversion = "6.0"
 addopts = ["--cov=wandb_osh", "-ra", "--showlocals", "--strict-markers", "--strict-config", "--cov-branch"]
 xfail_strict = true
+
+[tool.pycln]
+all = true

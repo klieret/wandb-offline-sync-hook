@@ -1,6 +1,6 @@
 {
   "template": "/Users/fuchur/Documents/22/git_sync/python-cookiecutter",
-  "commit": "db0e9c0fa970935d0f82e634088c852e95cc4ad9",
+  "commit": "fb388a3eb3a06db9f154ceb5e2727d5b40d763b5",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -13,6 +13,7 @@
       "maintainer": "Kilian Lieret",
       "maintainer_email": "kilian.lieret@posteo.de",
       "year": "2022",
+      "_copy_without_render": ["*.css"],
       "_template": "/Users/fuchur/Documents/22/git_sync/python-cookiecutter"
     }
   },

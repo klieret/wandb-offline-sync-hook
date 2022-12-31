@@ -164,7 +164,7 @@ pre-commit install
 
 ## 💖 Contributing
 
-Your help is greatly appreciated! Suggestions, bug reports and feature requests are best opened as [github issues](https://github.com/klieret/wandb-offline-sync-hook/issues). You are also very welcome to submit a [pull request](https://github.com/klieret/wandb-offline-sync-hook/pulls)!
+Your help is greatly appreciated! Suggestions, bug reports and feature requests are best opened as [github issues][github-issues]. You are also very welcome to submit a [pull request][pulls]!
 
 Bug reports and pull requests are credited with the help of the [allcontributors bot](https://allcontributors.org/).
 
@@ -181,3 +181,6 @@ Bug reports and pull requests are credited with the help of the [allcontributors
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!--  -->
 <!-- This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome! -->
+
+[github-issues]: https://github.com/klieret/wandb-offline-sync-hook/issues
+[pulls]: https://github.com/klieret/wandb-offline-sync-hook/pulls

@@ -60,6 +60,11 @@ repos:
     rev: "v3.0.0-alpha.4"
     hooks:
       - id: prettier
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.1.2
+    hooks:
+      - id: pycln
+        args: [--config=pyproject.toml]
 
 exclude: "docs/.*"
 
