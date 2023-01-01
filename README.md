@@ -155,7 +155,7 @@ Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable
 Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/a2caa9c0 ... done.
 ```
 
-Take a look at `wandb-osh --help` for all command line options. 
+Take a look at `wandb-osh --help` for all command line options.
 You can also add options to the `wandb sync` call by placing them after `--`. For example
 
 ```bash
