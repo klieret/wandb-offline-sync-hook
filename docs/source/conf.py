@@ -38,7 +38,7 @@ html_static_path = ["_static"]
 
 # -- Copy readme
 
-readme_path = Path(__file__).parent.resolve().parent.parent / "readme.md"
+readme_path = Path(__file__).parent.resolve().parent.parent / "README.md"
 readme_target = Path(__file__).parent / "readme.md"
 
 with readme_target.open("w") as outf:
