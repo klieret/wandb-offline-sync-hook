@@ -47,6 +47,7 @@ with readme_target.open("w") as outf:
             [
                 "Readme",
                 "======",
+                "",
             ]
         )
     )
@@ -54,6 +55,8 @@ with readme_target.open("w") as outf:
     for line in readme_path.read_text().splitlines():
         if line.startswith("# "):
             # Skip title, because we now use "Readme"
+            continue
+        if "<h1" in line:
             continue
         if "<div" in line or "</div" in line:
             continue
