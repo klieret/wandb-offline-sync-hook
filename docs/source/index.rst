@@ -5,6 +5,8 @@ Welcome to wandb-offline-sync-hook documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   readme
+
 
 Indices and tables
 ==================
