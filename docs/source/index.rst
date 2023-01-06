@@ -1,5 +1,5 @@
-Welcome to wandb-offline-sync-hook documentation!
-=================================================
+Wandb Offline Sync Hooks
+========================
 
 .. toctree::
    :maxdepth: 2
