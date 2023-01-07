@@ -24,6 +24,7 @@ autoapi_type = "python"
 autoapi_dirs = ["../../src/wandb_osh"]
 autoapi_ignore = ["*/test_*.py"]
 autoapi_python_class_content = "init"
+autoapi_options = [ 'members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'special-members', 'imported-members', ]
 
 
 templates_path = ["_templates"]
