@@ -5,6 +5,9 @@
     },
     {
       "pattern": "https://github.com/klieret/pulls.*"
+    },
+    {
+      "pattern": "https://docs.wandb.ai/guides/integrations/pytorch"
     }
   ]
 }
