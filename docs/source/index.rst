@@ -6,6 +6,7 @@ Wandb Offline Sync Hooks
    :caption: Contents:
 
    readme
+   cli
 
 
 Indices and tables

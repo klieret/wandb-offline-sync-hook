@@ -19,6 +19,7 @@ extensions = ["sphinx.ext.napoleon"]
 
 extensions.append("autoapi.extension")
 extensions.append("recommonmark")
+extensions.append("sphinxarg.ext")
 
 autoapi_type = "python"
 autoapi_dirs = ["../../src/wandb_osh"]
