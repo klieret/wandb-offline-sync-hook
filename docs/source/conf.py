@@ -8,8 +8,8 @@ from pathlib import Path
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "wandb-offline-sync-hook"
-copyright = "2022, Kilian Lieret"
+project = "Wandb Offline Sync Hooks"
+copyright = "2023, Kilian Lieret"
 author = "Kilian Lieret"
 
 # -- General configuration ---------------------------------------------------
