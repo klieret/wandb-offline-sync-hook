@@ -1,3 +1,4 @@
 sphinx_book_theme
 sphinx-autoapi
 recommonmark
+sphinx-argparse
