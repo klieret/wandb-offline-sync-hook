@@ -162,6 +162,13 @@ You can also add options to the `wandb sync` call by placing them after `--`. Fo
 wandb-osh -- --sync-all
 ```
 
+## ❓ Q & A
+
+> I get the warning "wandb: NOTE: use wandb sync --sync-all to sync 1 unsynced runs from local directory."
+
+You can start `wandb-osh` with `wandb-osh -- --sync-all` to always synchronize
+all available runs.
+
 ## 🧰 Development setup
 
 ```bash
