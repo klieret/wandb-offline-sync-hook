@@ -17,11 +17,12 @@ class WandbSyncer:
         wait: int = 1,
         wandb_options: list[str] | None = None,
     ):
-        """
+        """Class for interpreting command files and triggering
+        `wandb sync`.
 
         Args:
             command_dir: Directory used for communication
-            wait:
+            wait: Minimal time to wait before scanning command dir again
             wandb_options: Options to pass on to wandb
         """
         if wandb_options is None:
@@ -30,15 +31,16 @@ class WandbSyncer:
         self.wait = wait
         self.wandb_options = wandb_options
 
-    def sync(self, dir: PathLike):
-        """Sync a directory.
+    def sync(self, dir: PathLike) -> None:
+        """Sync a directory. Thin wrapper around the `sync_dir` function.
 
         Args:
             dir: Directory with wandb files to be synced
         """
         sync_dir(dir, options=self.wandb_options)
 
-    def loop(self):
+    def loop(self) -> None:
+        """Read command files and trigger syncing"""
         logger.info("Starting to watch %s", self.command_dir)
         while True:
             start_time = time.time()
@@ -69,7 +71,12 @@ class WandbSyncer:
 
 
 def sync_dir(dir: PathLike, options: list[str] | None = None) -> None:
-    """Call wandb sync on a directory."""
+    """Call wandb sync on a directory.
+
+    Args:
+        dir: Directory with wandb runs
+        options: List of options to pass on to `wandb sync`
+    """
     if options is None:
         options = []
     dir = Path(dir)
