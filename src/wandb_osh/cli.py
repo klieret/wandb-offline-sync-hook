@@ -27,7 +27,9 @@ def _get_parser() -> ArgumentParser:
     parser.add_argument(
         "wandb_options",
         nargs="*",
-        help="Options to be passed on to `wandb sync`, e.g. `--sync-all`",
+        help="Options to be passed on to `wandb sync`, e.g. `--sync-all`. When "
+        "specifying a flag to wandb, please add a `--` before the option, "
+        "e.g., `wandb-osh -- --sync-all`",
     )
     return parser
 
