@@ -9,8 +9,8 @@ from wandb_osh.syncer import WandbSyncer
 def _get_parser() -> ArgumentParser:
     parser = ArgumentParser(
         description="Wandb offline syncer. To pass arguments to wandb sync, e.g., "
-        "--sync-all, use -- before the arguments. For example: "
-        "wandb-osh --wait 10 -- --sync-all"
+        "`--sync-all`, use `--` before the arguments. For example: "
+        "`wandb-osh --wait 10 -- --sync-all`"
     )
     parser.add_argument(
         "--command-dir",
@@ -27,7 +27,7 @@ def _get_parser() -> ArgumentParser:
     parser.add_argument(
         "wandb_options",
         nargs="*",
-        help="Options to be passed on to 'wandb sync', e.g. '--sync-all'",
+        help="Options to be passed on to `wandb sync`, e.g. `--sync-all`",
     )
     return parser
 
