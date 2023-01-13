@@ -11,6 +11,7 @@ from pathlib import Path
 project = "Wandb Offline Sync Hooks"
 copyright = "2023, Kilian Lieret"
 author = "Kilian Lieret"
+html_title = "Wandb Offline Sync Hooks"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
