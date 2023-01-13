@@ -20,7 +20,7 @@
 
 - ✅ You use [`wandb`/Weights & Biases](https://wandb.ai/) to record your machine learning trials?
 - ✅ Your ML experiments run on compute nodes without internet access (for example, using a batch system)?
-- ✅ Your compute nodes and head nodes have access to a shared file system?
+- ✅ Your compute nodes and your head/login node (with internet) have access to a shared file system?
 
 Then this package can be useful.
 
@@ -32,13 +32,14 @@ Then this package can be useful.
 
 ### What you might have been doing so far
 
-You probably have been using `export WANDB_MODE="offline"` and then ran something like
+You probably have been using `export WANDB_MODE="offline"` on the compute nodes and then ran something like
 
 ```bash
-for d in $(ls -t -d */);do cd $d; wandb sync --sync-all; cd ..; done
+cd /.../result_dir/
+for d in $(ls -t -d */); do cd $d; wandb sync --sync-all; cd ..; done
 ```
 
-on the result directory to sync all runs from your head node (with internet access) every now and then.
+from your head node (with internet access) every now and then.
 However, obviously this is not very satisfying as it doesn't update live.
 Sure, you could throw this in a `while True` loop, but if you have a lot of trials in your directory, this will take forever, [cause unnecessary network traffic](https://github.com/wandb/wandb/issues/2887) and it's just not very elegant.
 
@@ -155,8 +156,8 @@ Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable
 Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/a2caa9c0 ... done.
 ```
 
-Take a look at `wandb-osh --help` for all command line options.
-You can also add options to the `wandb sync` call by placing them after `--`. For example
+Take a look at `wandb-osh --help` or check [the documentation](https://wandb-offline-sync-hook.readthedocs.io/en/latest/cli.html) for all command line options.
+You can add options to the `wandb sync` call by placing them after `--`. For example
 
 ```bash
 wandb-osh -- --sync-all
