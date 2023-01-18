@@ -1,4 +1,7 @@
 <div align="center">
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 <h1>Wandb Offline Sync Hook</h1>
 <em>A convenient way to trigger synchronizations to wandb if your compute nodes don't have internet!</em>
 <p></p>
@@ -190,6 +193,14 @@ Bug reports and pull requests are credited with the help of the [allcontributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/barthelemymp"><img src="https://avatars.githubusercontent.com/u/36533835?v=4?s=100" width="100px;" alt="Barthelemy Meynard-Piganeau"/><br /><sub><b>Barthelemy Meynard-Piganeau</b></sub></a><br /><a href="https://github.com/klieret/wandb-offline-sync-hook/issues?q=author%3Abarthelemymp" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
+</table>
+
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
@@ -199,3 +210,16 @@ Bug reports and pull requests are credited with the help of the [allcontributors
 
 [github-issues]: https://github.com/klieret/wandb-offline-sync-hook/issues
 [pulls]: https://github.com/klieret/wandb-offline-sync-hook/pulls
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
