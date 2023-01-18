@@ -5,6 +5,7 @@ from pathlib import Path
 
 import wandb
 
+from wandb_osh import __version__
 from wandb_osh.util.hash_id import hash_id
 from wandb_osh.util.log import logger
 
@@ -20,6 +21,11 @@ class TriggerWandbSyncHook:
         """
         self.communication_dir = Path(communication_dir)
         self.communication_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(
+            "This is wandb-osh v%s using communication directory %s",
+            __version__,
+            self.communication_dir,
+        )
 
     def __call__(self, logdir: str | PathLike | None = None):
         """Trigger synchronization on the head nodes

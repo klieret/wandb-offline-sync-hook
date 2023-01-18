@@ -6,6 +6,7 @@ import time
 from os import PathLike
 from pathlib import Path
 
+from wandb_osh import __version__
 from wandb_osh.config import _command_dir_default
 from wandb_osh.util.log import logger
 
@@ -41,7 +42,9 @@ class WandbSyncer:
 
     def loop(self) -> None:
         """Read command files and trigger syncing"""
-        logger.info("Starting to watch %s", self.command_dir)
+        logger.info(
+            "wandb-osh v%s, starting to watch %s", __version__, self.command_dir
+        )
         while True:
             start_time = time.time()
             self.command_dir.mkdir(parents=True, exist_ok=True)
