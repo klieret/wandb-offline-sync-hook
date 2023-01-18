@@ -31,7 +31,9 @@ class TriggerWandbSyncHook:
             None
         """
         if logdir is None:
-            logdir = wandb.run.dir
+            # run.dir actually points to the `/files` subdirectory of the run,
+            # but we need the directory above that.
+            logdir = Path(wandb.run.dir).parent.resolve()
         trial_dir = Path(logdir).resolve()
         cmd_fname = hash_id(str(trial_dir)) + ".command"
         command_file = self.communication_dir / cmd_fname
