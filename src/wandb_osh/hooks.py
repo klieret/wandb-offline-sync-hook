@@ -5,6 +5,7 @@ from pathlib import Path
 
 import wandb
 
+from wandb_osh.util.hash_id import hash_id
 from wandb_osh.util.log import logger
 
 _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
@@ -31,8 +32,9 @@ class TriggerWandbSyncHook:
         """
         if logdir is None:
             logdir = wandb.run.dir
-        trial_dir = Path(logdir)
-        command_file = self.communication_dir / f"{trial_dir.name}.command"
+        trial_dir = Path(logdir).resolve()
+        cmd_fname = hash_id(str(trial_dir)) + ".command"
+        command_file = self.communication_dir / cmd_fname
         if command_file.is_file():
             logger.warning(
                 "Syncing not active or too slow: Command %s file still exists",
