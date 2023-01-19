@@ -83,7 +83,7 @@ def sync_dir(dir: PathLike, options: list[str] | None = None) -> None:
     if options is None:
         options = []
     dir = Path(dir)
-    command = ["wandb", "sync", *options]
+    command = ["wandb", "sync", *options, "."]
     if "PYTEST_CURRENT_TEST" in os.environ:
         logger.debug("Testing mode enabled. Not actually calling wandb.")
         logger.debug("Command would be: %s in %s", " ".join(command), dir)
