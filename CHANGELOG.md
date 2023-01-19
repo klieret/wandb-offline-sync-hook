@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.0.4 (18.01.2023)
+
+### Fixed
+
+- Explicitly add path to `wandb sync` calls (depending on the system, calling
+  `wandb sync` inside the run dir resulted in "no runs to be synced" errors)
+
 ## 1.0.3 (18.01.2023)
 
 ### Fixed
