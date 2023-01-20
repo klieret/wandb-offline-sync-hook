@@ -54,7 +54,7 @@ Very simple: Every time an epoch concludes, the hook gets called and creates a f
 
 ### What alternatives are there?
 
-With [ray tune][ray-tune], you can use your ray head node as the place to synchronize from (rather than deploying it via the batch system as well, as the [current docs][ray-tune-slurm-docs] suggest). See the note below or my [demo repository][ray-tune-slurm-test]. 
+With [ray tune][ray-tune], you can use your ray head node as the place to synchronize from (rather than deploying it via the batch system as well, as the [current docs][ray-tune-slurm-docs] suggest). See the note below or my [demo repository][ray-tune-slurm-test].
 Similar strategies might be possible for `wandb` as well (let me know!).
 
 ## 📦 Installation
@@ -107,7 +107,7 @@ for batch_idx, (data, target) in enumerate(train_loader):
 #### With ray tune
 
 > **Note**
-> With ray tune, you might not need this package! While the approach suggested in the 
+> With ray tune, you might not need this package! While the approach suggested in the
 > [ray tune SLURM docs][ray-tune-slurm-docs] deploys the ray head on a worker node as well (so it doesn't
 > have internet), this actually isn't needed. Instead, you can run the ray head and the
 > tuning script on the head node and only submit batch jobs for your workers.
