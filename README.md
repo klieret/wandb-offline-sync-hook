@@ -52,6 +52,11 @@ Sure, you could throw this in a `while True` loop, but if you have a lot of tria
 
 Very simple: Every time an epoch concludes, the hook gets called and creates a file in a _communication directory_ (`~/.wandb_osh_communication` by default). `wandb-osh` scans the communication directory and reads synchronization instructions from such files.
 
+### What alternatives are there?
+
+With [ray tune][ray-tune], you can use your ray head node as the place to synchronize from (rather than deploying it via the batch system as well, as the [current docs][ray-tune-slurm-docs] suggest). See the note below or my [demo repository][ray-tune-slurm-test]. 
+Similar strategies might be possible for `wandb` as well (let me know!).
+
 ## 📦 Installation
 
 ```
@@ -100,6 +105,15 @@ for batch_idx, (data, target) in enumerate(train_loader):
 ```
 
 #### With ray tune
+
+> **Note**
+> With ray tune, you might not need this package! While the approach suggested in the 
+> [ray tune SLURM docs][ray-tune-slurm-docs] deploys the ray head on a worker node as well (so it doesn't
+> have internet), this actually isn't needed. Instead, you can run the ray head and the
+> tuning script on the head node and only submit batch jobs for your workers.
+> In this way, `wandb` will be called from the head node and internet access is no
+> problem there.
+> For more information on this approach, take a look at my [demo repository][ray-tune-slurm-test].
 
 You probably already use the `WandbLoggerCallback` callback. We simply add a second callback for `wandb-osh` (it only takes one new line!):
 
@@ -207,3 +221,6 @@ Bug reports and pull requests are credited with the help of the [allcontributors
 
 [github-issues]: https://github.com/klieret/wandb-offline-sync-hook/issues
 [pulls]: https://github.com/klieret/wandb-offline-sync-hook/pulls
+[ray-tune-slurm-docs]: https://docs.ray.io/en/latest/cluster/vms/user-guides/community/slurm.html
+[ray-tune-slurm-test]: https://github.com/klieret/ray-tune-slurm-test/
+[ray-tune]: https://docs.ray.io/en/latest/tune/index.html
