@@ -22,7 +22,7 @@
 - ✅ Your ML experiments run on compute nodes without internet access (for example, using a batch system)?
 - ✅ Your compute nodes and your head/login node (with internet) have access to a shared file system?
 
-Then this package can be useful.
+Then this package might be useful. For alternatives, see [below](https://github.com/klieret/wandb-offline-sync-hook#what-alternatives-are-there).
 
 <div align="center">
 
@@ -115,11 +115,11 @@ for batch_idx, (data, target) in enumerate(train_loader):
 > problem there.
 > For more information on this approach, take a look at my [demo repository][ray-tune-slurm-test].
 
-You probably already use the `WandbLoggerCallback` callback. We simply add a second callback for `wandb-osh` (it only takes one new line!):
+You probably already use the `WandbLoggerCallback` callback. We simply add a second callback for `wandb-osh` (it only takes two new lines!):
 
 ```python
 import os
-from wandb_osh.ray_hooks import TriggerWandbSyncRayHook
+from wandb_osh.ray_hooks import TriggerWandbSyncRayHook  # <-- New!
 
 
 os.environ["WANDB_MODE"] = "offline"
