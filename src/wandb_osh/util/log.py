@@ -29,7 +29,9 @@ def get_logger():
         "CRITICAL": "red",
     }
     formatter = colorlog.ColoredFormatter(
-        "%(log_color)s%(levelname)s: %(message)s", log_colors=log_colors
+        "%(log_color)s%(asctime)s %(levelname)s: %(message)s",
+        log_colors=log_colors,
+        datefmt="%H:%M:%S",
     )
     sh.setFormatter(formatter)
     # Controlled by overall logger level
