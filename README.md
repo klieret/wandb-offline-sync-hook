@@ -104,6 +104,27 @@ for batch_idx, (data, target) in enumerate(train_loader):
         trigger_sync()  # <-- New!
 ```
 
+#### With pytorch lightning
+
+```python
+from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # <-- New!
+from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning import Trainer
+
+logger = WandbLogger(
+    project="project",
+    group="group",
+    offline=True,
+)
+
+model = MyLightningModule()
+trainer = Trainer(
+    logger=logger,
+    callbacks=[TriggerWandbSyncLightningCallback()]  # <-- New!
+)
+trainer.fit(model, train_dataloader, val_dataloader)
+```
+
 #### With ray tune
 
 > **Note**
