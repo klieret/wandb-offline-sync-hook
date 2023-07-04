@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added support for pytorch lightning
 
+### Changed
+
+- Removed python 3.7 support
+
 ## 1.0.4 (18.01.2023)
 
 ### Fixed
