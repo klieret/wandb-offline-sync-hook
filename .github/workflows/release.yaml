@@ -24,7 +24,7 @@ jobs:
       - name: Check products
         run: pipx run twine check dist/*
 
-      - uses: pypa/gh-action-pypi-publish@v1.8.6
+      - uses: pypa/gh-action-pypi-publish@v1.8.7
         if: github.event_name == 'release' && github.event.action == 'published'
         with:
           # Remember to generate this and set it in "GitHub Secrets"
