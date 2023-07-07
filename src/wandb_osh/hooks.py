@@ -42,6 +42,8 @@ class TriggerWandbSyncHook:
             logdir = Path(wandb.run.dir).parent.resolve()
         trial_dir = Path(logdir).resolve()
         cmd_fname = hash_id(str(trial_dir)) + ".command"
+        # In case the communication dir was deleted since we initialized this class
+        self.communication_dir.mkdir(parents=True, exist_ok=True)
         command_file = self.communication_dir / cmd_fname
         if command_file.is_file():
             logger.warning(
