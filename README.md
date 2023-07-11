@@ -106,6 +106,8 @@ for batch_idx, (data, target) in enumerate(train_loader):
 
 #### With pytorch lightning
 
+Simply add the `TriggerWandbSyncLightningCallback` to your list of callbacks and you're good to go!
+
 ```python
 from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # <-- New!
 from pytorch_lightning.loggers import WandbLogger
