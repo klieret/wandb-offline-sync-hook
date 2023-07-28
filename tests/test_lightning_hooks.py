@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import pytest
 import wandb
 
-from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback
+_ray = pytest.importorskip("ray")
+from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # noqa: E402
 
 
 def test_manual_trigger(tmp_path):
