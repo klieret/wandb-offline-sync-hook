@@ -17,6 +17,8 @@ class WandbSyncer:
         command_dir: PathLike = _command_dir_default,
         wait: int = 1,
         wandb_options: list[str] | None = None,
+        *,
+        timeout: int | float = 120,
     ):
         """Class for interpreting command files and triggering
         `wandb sync`.
@@ -25,12 +27,14 @@ class WandbSyncer:
             command_dir: Directory used for communication
             wait: Minimal time to wait before scanning command dir again
             wandb_options: Options to pass on to wandb
+            timeout: Timeout for wandb sync. If <=0, no timeout.
         """
         if wandb_options is None:
             wandb_options = []
         self.command_dir = Path(command_dir)
         self.wait = wait
         self.wandb_options = wandb_options
+        self._timeout = timeout
 
     def sync(self, dir: PathLike) -> None:
         """Sync a directory. Thin wrapper around the `sync_dir` function.
@@ -38,7 +42,7 @@ class WandbSyncer:
         Args:
             dir: Directory with wandb files to be synced
         """
-        sync_dir(dir, options=self.wandb_options)
+        sync_dir(dir, options=self.wandb_options, timeout=self._timeout)
 
     def loop(self) -> None:
         """Read command files and trigger syncing"""
@@ -63,7 +67,14 @@ class WandbSyncer:
                 targets.append(target)
             for target in set(targets):
                 logger.info("Syncing %s...", target)
-                self.sync(target)
+                try:
+                    self.sync(target)
+                except subprocess.TimeoutExpired:
+                    # try again later
+                    logger.warning("Syncing %s timed out. Trying later.", target)
+                    from wandb_osh.hooks import TriggerWandbSyncHook
+
+                    TriggerWandbSyncHook(self.command_dir)(target)
             time.sleep(0.25)
             for cf in command_files:
                 if cf.is_file():
@@ -73,12 +84,15 @@ class WandbSyncer:
             time.sleep(max(0.0, (time.time() - start_time) - self.wait))
 
 
-def sync_dir(dir: PathLike, options: list[str] | None = None) -> None:
+def sync_dir(
+    dir: PathLike, options: list[str] | None = None, *, timeout: int | float = 0
+) -> None:
     """Call wandb sync on a directory.
 
     Args:
         dir: Directory with wandb runs
         options: List of options to pass on to `wandb sync`
+        timeout: Timeout for wandb sync. If <=0: no timeout
     """
     if options is None:
         options = []
@@ -88,4 +102,5 @@ def sync_dir(dir: PathLike, options: list[str] | None = None) -> None:
         logger.debug("Testing mode enabled. Not actually calling wandb.")
         logger.debug("Command would be: %s in %s", " ".join(command), dir)
         return
-    subprocess.run(command, cwd=dir)
+    _timeout = None if timeout <= 0 else timeout
+    subprocess.run(command, cwd=dir, timeout=_timeout)
