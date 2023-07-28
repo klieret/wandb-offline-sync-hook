@@ -5,3 +5,4 @@ import logging
 from wandb_osh.util.log import logger
 
 logger.setLevel(logging.DEBUG)
+logger.propagate = True
