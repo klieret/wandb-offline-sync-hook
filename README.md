@@ -113,6 +113,7 @@ for batch_idx, (data, target) in enumerate(train_loader):
         wandb.log({"loss": loss})
         trigger_sync()  # <-- New!
 ```
+
 </details>
 <details>
 <summary>With pytorch lightning</summary>
@@ -137,6 +138,7 @@ trainer = Trainer(
 )
 trainer.fit(model, train_dataloader, val_dataloader)
 ```
+
 </details>
 <details>
 <summary>With ray tune</summary>
@@ -173,6 +175,7 @@ tuner = tune.Tuner(
     ),
 )
 ```
+
 </details>
 
 <details>
@@ -181,6 +184,7 @@ tuner = tune.Tuner(
 Simply take the `TriggerWandbSyncHook` class and use it as a callback in your training
 loop (as in the `wandb` example above), passing the directory that `wandb` is syncing
 to as an argument.
+
 </details>
 
 ### Step 2: Running the script on the head node
@@ -193,7 +197,7 @@ wandb-osh
 
 <details>
 <summary>The output will look something like this</summary>
-    
+
 ```
 INFO: Starting to watch /home/kl5675/.wandb_osh_command_dir
 INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_b1f60706_4_attr_pt_thld=0.0273,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-42
@@ -208,6 +212,7 @@ INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable
 Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_a2caa9c0_2_attr_pt_thld=0.0092,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-17/wandb/debug-cli.kl5675.log
 Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/a2caa9c0 ... done.
 ```
+
 </details>
 
 Take a look at `wandb-osh --help` or check [the documentation](https://wandb-offline-sync-hook.readthedocs.io/en/latest/cli.html) for all command line options.
