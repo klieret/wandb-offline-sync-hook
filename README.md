@@ -59,14 +59,23 @@ Similar strategies might be possible for `wandb` as well (let me know!).
 
 ## 📦 Installation
 
-```
+```bash
 pip3 install wandb-osh
 ```
 
-If you want to use this package with `ray`, use
+For completeness, the extra dependencies `lightning` and `ray` are given, but they only ensure that the corresponding package is installed.
+For example
 
+```bash
+pip3 install 'wandb-osh[lightning]'
 ```
-pip3 install 'wandb-osh[ray]'
+
+also installs pytorch lightning if it is not already present, but has no other effect.
+
+For development, make sure also to include the `testing` extra requirement.
+
+```bash
+pip3 install --editable '.[testing]'
 ```
 
 ## 🔥 Running it!
