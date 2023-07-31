@@ -84,7 +84,8 @@ Two steps: Set up the hook, then run the script from your head node.
 
 ### Step 1: Setting up the hook
 
-#### With wandb
+<details>
+<summary>With pure wandb</summary>
 
 Let's adapt the [simple pytorch example](https://docs.wandb.ai/guides/integrations/pytorch) from the wandb docs (it only takes 3 lines!):
 
@@ -112,8 +113,9 @@ for batch_idx, (data, target) in enumerate(train_loader):
         wandb.log({"loss": loss})
         trigger_sync()  # <-- New!
 ```
-
-#### With pytorch lightning
+</details>
+<details>
+<summary>With pytorch lightning</summary>
 
 Simply add the `TriggerWandbSyncLightningCallback` to your list of callbacks and you're good to go!
 
@@ -135,8 +137,9 @@ trainer = Trainer(
 )
 trainer.fit(model, train_dataloader, val_dataloader)
 ```
-
-#### With ray tune
+</details>
+<details>
+<summary>With ray tune</summary>
 
 > **Note**
 > With ray tune, you might not need this package! While the approach suggested in the
@@ -170,12 +173,15 @@ tuner = tune.Tuner(
     ),
 )
 ```
+</details>
 
-#### With anything else
+<details>
+<summary>With anything else</summary>
 
 Simply take the `TriggerWandbSyncHook` class and use it as a callback in your training
 loop (as in the `wandb` example above), passing the directory that `wandb` is syncing
 to as an argument.
+</details>
 
 ### Step 2: Running the script on the head node
 
@@ -185,8 +191,9 @@ After installation, you should have a `wandb-osh` script in your `$PATH`. Simply
 wandb-osh
 ```
 
-The output will look something like this:
-
+<details>
+<summary>The output will look something like this</summary>
+    
 ```
 INFO: Starting to watch /home/kl5675/.wandb_osh_command_dir
 INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_b1f60706_4_attr_pt_thld=0.0273,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-42
@@ -201,6 +208,7 @@ INFO: Syncing /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable
 Find logs at: /home/kl5675/ray_results/tcn-perfect-test-sync/DynamicTCNTrainable_a2caa9c0_2_attr_pt_thld=0.0092,batch_size=1,focal_alpha=0.2500,focal_gamma=2.0000,gnn_tracking_experiments_has_2022-11-03_17-08-17/wandb/debug-cli.kl5675.log
 Syncing: https://wandb.ai/gnn_tracking/gnn_tracking/runs/a2caa9c0 ... done.
 ```
+</details>
 
 Take a look at `wandb-osh --help` or check [the documentation](https://wandb-offline-sync-hook.readthedocs.io/en/latest/cli.html) for all command line options.
 You can add options to the `wandb sync` call by placing them after `--`. For example
