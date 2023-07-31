@@ -25,6 +25,12 @@ def _get_parser() -> ArgumentParser:
         help="Minimal time that has to pass before checking the command dir again.",
     )
     parser.add_argument(
+        "--timeout",
+        default=120,
+        type=int,
+        help="Timeout for wandb sync. If <=0, no timeout.",
+    )
+    parser.add_argument(
         "wandb_options",
         nargs="*",
         help="Options to be passed on to `wandb sync`, e.g. `--sync-all`. When "
