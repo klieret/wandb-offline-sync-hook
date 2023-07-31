@@ -2,9 +2,12 @@ from __future__ import annotations
 
 from unittest.mock import Mock
 
+import pytest
 import wandb
 
-from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback
+_ray = pytest.importorskip("pytorch_lightning")
+
+from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # noqa: E402
 
 
 def test_manual_trigger(tmp_path):
