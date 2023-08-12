@@ -1,4 +1,9 @@
 repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.283
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
   - repo: https://github.com/psf/black
     rev: 23.7.0
     hooks:
@@ -14,24 +19,6 @@ repos:
       - id: end-of-file-fixer
         exclude: '.*\.ipynb'
       - id: trailing-whitespace
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        name: isort (python)
-        args:
-          [
-            "--profile",
-            "black",
-            "-a",
-            "from __future__ import annotations",
-            "--append-only",
-          ]
-  - repo: https://github.com/PyCQA/flake8
-    rev: "6.1.0"
-    hooks:
-      - id: flake8
-        additional_dependencies: ["flake8-bugbear"]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: "v1.4.1"
     hooks:
@@ -41,16 +28,6 @@ repos:
     hooks:
       - id: codespell
         args: ["-I", "codespell.txt"]
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
-    hooks:
-      - id: nbstripout
-        args: ["--extra-keys", "cell.metadata.pycharm"]
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.10.1
-    hooks:
-      - id: pyupgrade
-        args: ["--py38-plus"]
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: "v2.4.0"
     hooks:
@@ -60,12 +37,6 @@ repos:
     rev: "v3.0.0"
     hooks:
       - id: prettier
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v2.2.0
-    hooks:
-      - id: pycln
-        args: [--config=pyproject.toml]
-
 exclude: "docs/.*"
 
 ci:
