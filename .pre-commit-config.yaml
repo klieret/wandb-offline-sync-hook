@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.283
+    rev: v0.0.287
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -20,7 +20,7 @@ repos:
         exclude: '.*\.ipynb'
       - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.4.1"
+    rev: "v1.5.1"
     hooks:
       - id: mypy
   - repo: https://github.com/codespell-project/codespell
@@ -34,7 +34,7 @@ repos:
       - id: setup-cfg-fmt
         args: [--include-version-classifiers, --max-py-version=3.10]
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.0"
+    rev: "v3.0.3"
     hooks:
       - id: prettier
 exclude: "docs/.*"
