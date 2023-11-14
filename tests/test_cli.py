@@ -3,9 +3,11 @@ from __future__ import annotations
 import logging
 
 from wandb_osh.cli import main
+from wandb_osh.util.log import set_log_level
 
 
 def test_cli(tmp_path, caplog):
+    set_log_level("DEBUG")
     with caplog.at_level(logging.INFO):
         main(argv=["--command-dir", str(tmp_path)])
     assert "starting to watch" in caplog.text
@@ -29,3 +31,4 @@ def test_cli(tmp_path, caplog):
     assert f"Syncing {target}" in caplog.text
     assert "wandb sync" in caplog.text
     assert "--sync-all" not in caplog.text
+    set_log_level()
