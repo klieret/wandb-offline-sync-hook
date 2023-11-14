@@ -5,7 +5,7 @@ import logging
 
 import colorlog
 
-LOG_DEFAULT_LEVEL = logging.DEBUG
+LOG_DEFAULT_LEVEL = logging.INFO
 
 
 def get_logger():
@@ -40,6 +40,12 @@ def get_logger():
     _log.addHandler(sh)
 
     return _log
+
+
+def set_log_level(level: str | int = LOG_DEFAULT_LEVEL) -> None:
+    """Sets the log level for the global logger."""
+    logger = get_logger()
+    logger.setLevel(level)
 
 
 logger = get_logger()

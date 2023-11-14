@@ -7,9 +7,11 @@ import unittest.mock
 from pathlib import Path
 
 from wandb_osh.syncer import WandbSyncer
+from wandb_osh.util.log import set_log_level
 
 
 def test_wandb_syncer(tmp_path, caplog):
+    set_log_level("DEBUG")
     tmp_path = Path(tmp_path)
     ws = WandbSyncer(tmp_path)
     target = tmp_path / "test" / "123"
@@ -23,6 +25,7 @@ def test_wandb_syncer(tmp_path, caplog):
     with caplog.at_level(logging.DEBUG):
         ws.loop()
     assert f"Command would be: wandb sync . in {target.resolve()}" in caplog.text
+    set_log_level()
 
 
 def test_wandb_sync_timeout(tmp_path, caplog):

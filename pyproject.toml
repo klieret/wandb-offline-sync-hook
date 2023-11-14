@@ -6,5 +6,8 @@ xfail_strict = true
 [tool.ruff.isort]
 required-imports = ["from __future__ import annotations"]
 
+[tool.ruff]
+ignore-init-module-imports = true
+
 [tool.pycln]
 all = true

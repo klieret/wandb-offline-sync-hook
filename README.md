@@ -230,6 +230,15 @@ wandb-osh -- --sync-all
 You can start `wandb-osh` with `wandb-osh -- --sync-all` to always synchronize
 all available runs.
 
+> How can I suppress logging messages (e.g., warnings about the syncing not being fast enough)
+
+```python3
+import wandb_osh
+
+# for wandb_osh.__version__ >= 1.2.0
+wandb_osh.set_log_level("ERROR")
+```
+
 ## 🧰 Development setup
 
 ```bash
