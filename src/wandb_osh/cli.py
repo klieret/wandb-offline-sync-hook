@@ -31,6 +31,12 @@ def _get_parser() -> ArgumentParser:
         help="Timeout for wandb sync. If <=0, no timeout.",
     )
     parser.add_argument(
+        "--num-workers",
+        default=1,
+        type=int,
+        help="Number of parallel syncs to run at a time.",
+    )
+    parser.add_argument(
         "wandb_options",
         nargs="*",
         help="Options to be passed on to `wandb sync`, e.g. `--sync-all`. When "
@@ -44,9 +50,12 @@ def main(argv=None) -> None:
     parser = _get_parser()
     args = parser.parse_args(argv)
     wandb_osh = WandbSyncer(
-        command_dir=args.command_dir, wait=args.wait, wandb_options=args.wandb_options
+        command_dir=args.command_dir,
+        wait=args.wait,
+        wandb_options=args.wandb_options,
+        num_workers=args.num_workers,
     )
-    wandb_osh.loop()
+    wandb_osh.start()
 
 
 if __name__ == "__main__":
