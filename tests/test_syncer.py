@@ -17,13 +17,13 @@ def test_wandb_syncer(tmp_path, caplog):
     target = tmp_path / "test" / "123"
     (tmp_path / "123.command").write_text(str(target.resolve()))
     with caplog.at_level(logging.WARNING):
-        ws.loop()
+        ws.start()
     assert "points to non-existing directory" in caplog.text
     caplog.clear()
     (tmp_path / "123.command").write_text(str(target.resolve()))
     target.mkdir(parents=True)
     with caplog.at_level(logging.DEBUG):
-        ws.loop()
+        ws.start()
     assert f"Command would be: wandb sync . in {target.resolve()}" in caplog.text
     set_log_level()
 
@@ -38,5 +38,5 @@ def test_wandb_sync_timeout(tmp_path, caplog):
         (tmp_path / "123.command").write_text(str(target.resolve()))
         target.mkdir(parents=True)
         with caplog.at_level(logging.DEBUG):
-            ws.loop()
+            ws.start()
         assert "timed out. Trying later." in caplog.text
