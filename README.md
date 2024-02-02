@@ -263,6 +263,7 @@ Bug reports and pull requests are credited with the help of the [allcontributors
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/barthelemymp"><img src="https://avatars.githubusercontent.com/u/36533835?v=4?s=100" width="100px;" alt="Barthelemy Meynard-Piganeau"/><br /><sub><b>Barthelemy Meynard-Piganeau</b></sub></a><br /><a href="https://github.com/klieret/wandb-offline-sync-hook/issues?q=author%3Abarthelemymp" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/MoH-assan"><img src="https://avatars.githubusercontent.com/u/123608862?v=4?s=100" width="100px;" alt="MoH-assan"/><br /><sub><b>MoH-assan</b></sub></a><br /><a href="https://github.com/klieret/wandb-offline-sync-hook/issues?q=author%3AMoH-assan" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
