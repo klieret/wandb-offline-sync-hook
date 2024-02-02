@@ -44,7 +44,10 @@ def main(argv=None) -> None:
     parser = _get_parser()
     args = parser.parse_args(argv)
     wandb_osh = WandbSyncer(
-        command_dir=args.command_dir, wait=args.wait, wandb_options=args.wandb_options
+        command_dir=args.command_dir,
+        wait=args.wait,
+        wandb_options=args.wandb_options,
+        timeout=args.timeout,
     )
     wandb_osh.loop()
 
