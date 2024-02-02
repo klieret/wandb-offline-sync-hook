@@ -1,5 +1,7 @@
 {
-  "files": ["README.md"],
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
   "commit": false,
   "commitConvention": "angular",
@@ -9,7 +11,18 @@
       "name": "Barthelemy Meynard-Piganeau",
       "avatar_url": "https://avatars.githubusercontent.com/u/36533835?v=4",
       "profile": "https://github.com/barthelemymp",
-      "contributions": ["bug"]
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "MoH-assan",
+      "name": "MoH-assan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/123608862?v=4",
+      "profile": "https://github.com/MoH-assan",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -17,5 +30,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "projectName": "wandb-offline-sync-hook",
-  "projectOwner": "klieret"
+  "projectOwner": "klieret",
+  "commitType": "docs"
 }
