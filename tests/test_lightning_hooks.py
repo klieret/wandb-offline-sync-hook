@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 import wandb
 
-_ray = pytest.importorskip("pytorch_lightning")
+_ray = pytest.importorskip("lightning")
 
 from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # noqa: E402
 

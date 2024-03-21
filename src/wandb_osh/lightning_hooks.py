@@ -2,9 +2,22 @@ from __future__ import annotations
 
 from os import PathLike
 
-import lightning.pytorch as pl
-
 from wandb_osh.hooks import TriggerWandbSyncHook, _comm_default_dir
+from wandb_osh.util.log import logger
+
+
+# See #96
+# Possible additional issues: If both imports are working, the wrong one might be used.
+try:
+    # This is the modern way
+    import lightning.pytorch as pl
+except ImportError:
+    import pytorch_lightning as pl
+
+    logger.warning(
+        "Imported lightning the legacy way (import pytorch_lightning as pl). "
+        "For more information see https://github.com/klieret/wandb-offline-sync-hook/issues/96"
+    )
 
 
 class TriggerWandbSyncLightningCallback(pl.Callback):
