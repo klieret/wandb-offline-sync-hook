@@ -2,18 +2,17 @@ from __future__ import annotations
 
 from os import PathLike
 
-from pytorch_lightning import LightningModule, Trainer
-from pytorch_lightning.callbacks import Callback
+import lightning.pytorch as pl
 
 from wandb_osh.hooks import TriggerWandbSyncHook, _comm_default_dir
 
 
-class TriggerWandbSyncLightningCallback(Callback):
+class TriggerWandbSyncLightningCallback(pl.Callback):
     def __init__(
         self,
         communication_dir: PathLike = _comm_default_dir,
     ):
-        """Hook to be used when interfacing wandb with pytorch lightning.
+        """Hook to be used when interfacing wandb with Lightning.
 
         Args:
             communication_dir: Directory used for communication with wandb-osh.
@@ -32,8 +31,8 @@ class TriggerWandbSyncLightningCallback(Callback):
 
     def on_validation_epoch_end(
         self,
-        trainer: Trainer,
-        pl_module: LightningModule,
+        trainer: pl.Trainer,
+        pl_module: pl.LightningModule,
     ) -> None:
         if trainer.sanity_checking:
             return
