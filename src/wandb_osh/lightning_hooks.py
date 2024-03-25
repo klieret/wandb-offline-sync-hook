@@ -24,13 +24,13 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
     def __init__(
         self,
         communication_dir: PathLike = _comm_default_dir,
-        frequency: int = 1,
+        sync_every_n_epochs: int = 1,
     ):
         """Hook to be used when interfacing wandb with Lightning.
 
         Args:
             communication_dir: Directory used for communication with wandb-osh.
-            frequency: Frequency of the trigger in number of epochs (default = 1, every epoch)
+            sync_every_n_epochs: Number of epochs between each trigger (default = 1, every epoch)
 
         Usage
 
@@ -43,7 +43,7 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
         """
         super().__init__()
         self._hook = TriggerWandbSyncHook(communication_dir=communication_dir)
-        self.frequency = frequency
+        self._sync_every_n_epochs = sync_every_n_epochs
 
     def on_validation_epoch_end(
         self,
@@ -52,6 +52,6 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
     ) -> None:
         if trainer.sanity_checking:
             return
-        # Call the hook every {frequency} epoch
-        if trainer.current_epoch % self.frequency == 0:
+        # Call the hook every {_sync_every_n_epochs} epoch
+        if trainer.current_epoch % self._sync_every_n_epochs == 0:
             self._hook()
