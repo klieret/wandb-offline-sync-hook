@@ -30,7 +30,8 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
 
         Args:
             communication_dir: Directory used for communication with wandb-osh.
-            sync_every_n_epochs: Number of epochs between each trigger (default = 1, every epoch)
+            sync_every_n_epochs: Number of epochs between each trigger (default = 1, every epoch).
+
 
         Usage
 
@@ -38,12 +39,13 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
 
             from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback
 
-            trainer = Trainer(callbacks=[TriggerWandbSyncLightningCallback()])
+            trainer = Trainer(callbacks=[TriggerWandbSyncLightningCallback(sync_every_n_epochs = 5)])
 
         """
         super().__init__()
-        self._hook = TriggerWandbSyncHook(communication_dir=communication_dir)
-        self._sync_every_n_epochs = sync_every_n_epochs
+        self._hook = TriggerWandbSyncHook(
+            communication_dir=communication_dir, sync_every_n_epochs=sync_every_n_epochs
+        )
 
     def on_validation_epoch_end(
         self,
@@ -52,6 +54,4 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
     ) -> None:
         if trainer.sanity_checking:
             return
-        # Call the hook every {_sync_every_n_epochs} epoch
-        if trainer.current_epoch % self._sync_every_n_epochs == 0:
-            self._hook()
+        self._hook(current_epoch=trainer.current_epoch)
