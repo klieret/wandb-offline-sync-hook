@@ -1,4 +1,4 @@
-from __future__ import annotations
+__future__ import annotations
 
 from os import PathLike
 
@@ -43,6 +43,7 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
 
         """
         super().__init__()
+        self.sync_every_n_epochs = sync_every_n_epochs
         self._hook = TriggerWandbSyncHook(
             communication_dir=communication_dir, sync_every_n_epochs=sync_every_n_epochs
         )
@@ -55,3 +56,13 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
         if trainer.sanity_checking:
             return
         self._hook(current_epoch=trainer.current_epoch)
+
+    def on_test_epoch_end(
+        self,
+        trainer: pl.Trainer,
+        pl_module: pl.LightningModule,
+    ) -> None:
+        if trainer.sanity_checking:
+            return
+        # Force the hook to trigger on last epoch end
+        self._hook(current_epoch=self.sync_every_n_epochs)
