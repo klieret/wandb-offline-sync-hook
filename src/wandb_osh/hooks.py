@@ -13,7 +13,11 @@ _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
 
 
 class TriggerWandbSyncHook:
-    def __init__(self, communication_dir: PathLike = _comm_default_dir):
+    def __init__(
+        self,
+        communication_dir: PathLike = _comm_default_dir,
+        sync_every_n_epochs: int = 1,
+    ):
         """Hook to trigger synchronization of wandb with wandb-osh
 
         Args:
@@ -26,16 +30,25 @@ class TriggerWandbSyncHook:
             __version__,
             self.communication_dir,
         )
+        self._sync_every_n_epochs = sync_every_n_epochs
 
-    def __call__(self, logdir: str | PathLike | None = None):
+    def __call__(
+        self,
+        logdir: str | PathLike | None = None,
+        current_epoch: int = 0,
+    ):
         """Trigger synchronization on the head nodes
 
         Args:
             logdir: The directory in which wandb puts its run files.
+            current_epoch: The epoch the hook is called from.
 
         Returns:
             None
         """
+        # Only trigger the hook every n epochs
+        if current_epoch % self._sync_every_n_epochs != 0:
+            return
         if logdir is None:
             # run.dir actually points to the `/files` subdirectory of the run,
             # but we need the directory above that.
