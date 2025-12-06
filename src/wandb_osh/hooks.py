@@ -39,6 +39,8 @@ class TriggerWandbSyncHook:
         if logdir is None:
             # run.dir actually points to the `/files` subdirectory of the run,
             # but we need the directory above that.
+            if wandb.run is None:  # if W&B was not initialized in this process
+                return  # do not trigger any synchronization
             logdir = Path(wandb.run.dir).parent.resolve()
         trial_dir = Path(logdir).resolve()
         cmd_fname = hash_id(str(trial_dir)) + ".command"
