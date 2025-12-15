@@ -24,11 +24,14 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
     def __init__(
         self,
         communication_dir: PathLike = _comm_default_dir,
+        sync_every_n_epochs: int = 1,
     ):
         """Hook to be used when interfacing wandb with Lightning.
 
         Args:
             communication_dir: Directory used for communication with wandb-osh.
+            sync_every_n_epochs: Number of epochs between each trigger (default = 1, every epoch).
+
 
         Usage
 
@@ -36,11 +39,14 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
 
             from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback
 
-            trainer = Trainer(callbacks=[TriggerWandbSyncLightningCallback()])
+            trainer = Trainer(callbacks=[TriggerWandbSyncLightningCallback(sync_every_n_epochs = 5)])
 
         """
         super().__init__()
-        self._hook = TriggerWandbSyncHook(communication_dir=communication_dir)
+        self.sync_every_n_epochs = sync_every_n_epochs
+        self._hook = TriggerWandbSyncHook(
+            communication_dir=communication_dir, sync_every_n_epochs=sync_every_n_epochs
+        )
 
     def on_validation_epoch_end(
         self,
@@ -49,4 +55,14 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
     ) -> None:
         if trainer.sanity_checking:
             return
-        self._hook()
+        self._hook(current_epoch=trainer.current_epoch)
+
+    def on_test_epoch_end(
+        self,
+        trainer: pl.Trainer,
+        pl_module: pl.LightningModule,
+    ) -> None:
+        if trainer.sanity_checking:
+            return
+        # Force the hook to trigger on last epoch end
+        self._hook(current_epoch=self.sync_every_n_epochs)
