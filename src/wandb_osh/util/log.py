@@ -1,24 +1,19 @@
-# std
 from __future__ import annotations
-
 import logging
+import os
 
-import colorlog
+logger = logging.getLogger("wandb_osh")
+logger.addHandler(logging.NullHandler())
+logger.setLevel(logging.NOTSET)
 
 LOG_DEFAULT_LEVEL = logging.INFO
 
+def _enable_colorlog_if_requested() -> None:
+    if os.getenv("WANDB_OSH_COLORLOG", "0") != "1":
+        return
 
-def get_logger():
-    """Sets up global logger."""
-    _log = colorlog.getLogger("wandb_osh")
-
-    if _log.handlers:
-        # the logger already has handlers attached to it, even though
-        # we didn't add it ==> logging.get_logger got us an existing
-        # logger ==> we don't need to do anything
-        return _log
-
-    _log.setLevel(LOG_DEFAULT_LEVEL)
+    if any(isinstance(h, colorlog.StreamHandler) for h in logger.handlers):
+        return
 
     sh = colorlog.StreamHandler()
     log_colors = {
@@ -37,15 +32,12 @@ def get_logger():
     # Controlled by overall logger level
     sh.setLevel(logging.DEBUG)
 
-    _log.addHandler(sh)
+    logger.addHandler(sh)
 
-    return _log
-
+def get_logger():
+    _enable_colorlog_if_requested()
+    return logger
 
 def set_log_level(level: str | int = LOG_DEFAULT_LEVEL) -> None:
-    """Sets the log level for the global logger."""
-    logger = get_logger()
+    get_logger()
     logger.setLevel(level)
-
-
-logger = get_logger()

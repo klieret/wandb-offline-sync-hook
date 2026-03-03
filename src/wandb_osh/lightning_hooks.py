@@ -24,6 +24,7 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
     def __init__(
         self,
         communication_dir: PathLike = _comm_default_dir,
+        warn_if_inactive: bool = True,
     ):
         """Hook to be used when interfacing wandb with Lightning.
 
@@ -40,7 +41,7 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
 
         """
         super().__init__()
-        self._hook = TriggerWandbSyncHook(communication_dir=communication_dir)
+        self._hook = TriggerWandbSyncHook(communication_dir=communication_dir, warn_if_inactive=warn_if_inactive)
 
     def on_validation_epoch_end(
         self,

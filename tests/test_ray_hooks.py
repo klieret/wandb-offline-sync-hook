@@ -14,7 +14,7 @@ class MockTrial:
 
 
 def test_trigger_wandb_sync_hook(tmp_path, caplog):
-    hook = TriggerWandbSyncRayHook(tmp_path)
+    hook = TriggerWandbSyncRayHook(tmp_path, warn_if_inactive=True)
 
     trial = MockTrial(logdir="/test/123")
 
@@ -24,3 +24,12 @@ def test_trigger_wandb_sync_hook(tmp_path, caplog):
     with caplog.at_level(logging.WARNING):
         hook.log_trial_result(0, trial, {})  # type: ignore
     assert "Syncing not active or too slow" in caplog.text
+
+def test_trigger_wandb_sync_ray_hook_no_warn_if_inactive(tmp_path, caplog):
+    hook = TriggerWandbSyncRayHook(tmp_path, warn_if_inactive=False)
+    trial = MockTrial(logdir="/test/123")
+    hook.log_trial_result(0, trial, {})  # creates file
+    caplog.clear()
+    with caplog.at_level(logging.WARNING, logger="wandb_osh"):
+        hook.log_trial_result(0, trial, {})
+    assert "Syncing not active or too slow" not in caplog.text

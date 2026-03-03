@@ -13,7 +13,7 @@ _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
 
 
 class TriggerWandbSyncHook:
-    def __init__(self, communication_dir: PathLike = _comm_default_dir):
+    def __init__(self, communication_dir: PathLike = _comm_default_dir, warn_if_inactive: bool = True):
         """Hook to trigger synchronization of wandb with wandb-osh
 
         Args:
@@ -21,6 +21,7 @@ class TriggerWandbSyncHook:
         """
         self.communication_dir = Path(communication_dir)
         self.communication_dir.mkdir(parents=True, exist_ok=True)
+        self.warn_if_inactive = warn_if_inactive
         logger.info(
             "This is wandb-osh v%s using communication directory %s",
             __version__,
@@ -47,7 +48,7 @@ class TriggerWandbSyncHook:
         # In case the communication dir was deleted since we initialized this class
         self.communication_dir.mkdir(parents=True, exist_ok=True)
         command_file = self.communication_dir / cmd_fname
-        if command_file.is_file():
+        if command_file.is_file() and self.warn_if_inactive:
             logger.warning(
                 "Syncing not active or too slow: Command %s file still exists",
                 command_file,

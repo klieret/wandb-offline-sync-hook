@@ -12,7 +12,7 @@ from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # noqa:
 
 def test_manual_trigger(tmp_path):
     wandb.init(project="test", mode="offline", dir=tmp_path)
-    lh = TriggerWandbSyncLightningCallback(tmp_path)
+    lh = TriggerWandbSyncLightningCallback(tmp_path, warn_if_inactive=True)
     trainer = Mock()
     trainer.sanity_checking = False
     module = Mock()
