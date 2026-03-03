@@ -8,12 +8,18 @@ logger.setLevel(logging.NOTSET)
 
 LOG_DEFAULT_LEVEL = logging.INFO
 
+try:
+    import colorlog
+except ImportError:
+    colorlog = None
 
 def _enable_colorlog_if_requested() -> None:
     if os.getenv("WANDB_OSH_COLORLOG", "0") != "1":
         return
+    if colorlog is None:
+        return
 
-    if any(isinstance(h, colorlog.StreamHandler) for h in logger.handlers):
+    if any(h.__class__.__name__ == "StreamHandler" for h in logger.handlers):
         return
 
     sh = colorlog.StreamHandler()
