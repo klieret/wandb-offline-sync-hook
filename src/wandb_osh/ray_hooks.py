@@ -12,14 +12,20 @@ _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
 
 
 class TriggerWandbSyncRayHook(LoggerCallback):
-    def __init__(self, communication_dir: PathLike = _comm_default_dir, warn_if_inactive: bool = True):
+    def __init__(
+        self,
+        communication_dir: PathLike = _comm_default_dir,
+        warn_if_inactive: bool = True,
+    ):
         """Hook to be used when interfacing wandb with ray tune.
 
         Args:
             communication_dir: Directory used for communication with wandb-osh.
         """
         super().__init__()
-        self._hook = TriggerWandbSyncHook(communication_dir=communication_dir, warn_if_inactive=warn_if_inactive)
+        self._hook = TriggerWandbSyncHook(
+            communication_dir=communication_dir, warn_if_inactive=warn_if_inactive
+        )
 
     def log_trial_result(self, iteration: int, trial: Trial, result: dict):
         trial_dir = Path(trial.logdir)

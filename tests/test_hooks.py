@@ -14,6 +14,7 @@ def test_trigger_wandb_sync_hook(tmp_path, caplog):
         hook("/test/123")
     assert "Syncing not active or too slow" in caplog.text
 
+
 def test_trigger_wandb_sync_hook_no_warn_if_inactive(tmp_path, caplog):
     hook = TriggerWandbSyncHook(tmp_path, warn_if_inactive=False)
     hook("/test/123")

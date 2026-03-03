@@ -8,6 +8,7 @@ logger.setLevel(logging.NOTSET)
 
 LOG_DEFAULT_LEVEL = logging.INFO
 
+
 def _enable_colorlog_if_requested() -> None:
     if os.getenv("WANDB_OSH_COLORLOG", "0") != "1":
         return
@@ -34,9 +35,11 @@ def _enable_colorlog_if_requested() -> None:
 
     logger.addHandler(sh)
 
+
 def get_logger():
     _enable_colorlog_if_requested()
     return logger
+
 
 def set_log_level(level: str | int = LOG_DEFAULT_LEVEL) -> None:
     get_logger()

@@ -41,7 +41,9 @@ class TriggerWandbSyncLightningCallback(pl.Callback):
 
         """
         super().__init__()
-        self._hook = TriggerWandbSyncHook(communication_dir=communication_dir, warn_if_inactive=warn_if_inactive)
+        self._hook = TriggerWandbSyncHook(
+            communication_dir=communication_dir, warn_if_inactive=warn_if_inactive
+        )
 
     def on_validation_epoch_end(
         self,

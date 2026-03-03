@@ -25,6 +25,7 @@ def test_trigger_wandb_sync_hook(tmp_path, caplog):
         hook.log_trial_result(0, trial, {})  # type: ignore
     assert "Syncing not active or too slow" in caplog.text
 
+
 def test_trigger_wandb_sync_ray_hook_no_warn_if_inactive(tmp_path, caplog):
     hook = TriggerWandbSyncRayHook(tmp_path, warn_if_inactive=False)
     trial = MockTrial(logdir="/test/123")

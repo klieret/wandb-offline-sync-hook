@@ -13,7 +13,11 @@ _comm_default_dir = Path("~/.wandb_osh_command_dir").expanduser()
 
 
 class TriggerWandbSyncHook:
-    def __init__(self, communication_dir: PathLike = _comm_default_dir, warn_if_inactive: bool = True):
+    def __init__(
+        self,
+        communication_dir: PathLike = _comm_default_dir,
+        warn_if_inactive: bool = True,
+    ):
         """Hook to trigger synchronization of wandb with wandb-osh
 
         Args:
