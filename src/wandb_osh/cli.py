@@ -31,6 +31,15 @@ def _get_parser() -> ArgumentParser:
         help="Timeout for wandb sync. If <=0, no timeout.",
     )
     parser.add_argument(
+        "--max-workers",
+        default=1,
+        type=int,
+        help=(
+            "Maximum number of concurrent `wandb sync` processes. "
+            "Increase to avoid one long sync blocking all others."
+        ),
+    )
+    parser.add_argument(
         "wandb_options",
         nargs="*",
         help="Options to be passed on to `wandb sync`, e.g. `--sync-all`. When "
@@ -48,6 +57,7 @@ def main(argv=None) -> None:
         wait=args.wait,
         wandb_options=args.wandb_options,
         timeout=args.timeout,
+        max_workers=args.max_workers,
     )
     wandb_osh.loop()
 

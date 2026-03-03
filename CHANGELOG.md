@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- Add bounded concurrent syncing to avoid one long `wandb sync` blocking other runs.
+  Configure with the new `--max-workers` CLI option.
+
 ## 1.2.2 (21.03.2024)
 
 ### Fixed

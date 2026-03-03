@@ -223,6 +223,13 @@ You can add options to the `wandb sync` call by placing them after `--`. For exa
 wandb-osh -- --sync-all
 ```
 
+If you have many runs and want to sync multiple runs in parallel, increase the
+maximum number of concurrent syncs:
+
+```bash
+wandb-osh --max-workers 4 -- --sync-all
+```
+
 ## ❓ Q & A
 
 > I get the warning "wandb: NOTE: use wandb sync --sync-all to sync 1 unsynced runs from local directory."
