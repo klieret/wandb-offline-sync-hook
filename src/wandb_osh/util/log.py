@@ -13,6 +13,7 @@ try:
 except ImportError:
     colorlog = None
 
+
 def _enable_colorlog_if_requested() -> None:
     if os.getenv("WANDB_OSH_COLORLOG", "0") != "1":
         return
