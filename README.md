@@ -239,6 +239,13 @@ import wandb_osh
 wandb_osh.set_log_level("ERROR")
 ```
 
+You can also disable only the "Syncing not active or too slow" warnings (useful if you run `wandb-osh` only occasionally):
+
+```python
+from wandb_osh.hooks import TriggerWandbSyncHook
+trigger_sync = TriggerWandbSyncHook(warn_if_inactive=False)
+```
+
 ## 🧰 Development setup
 
 ```bash
