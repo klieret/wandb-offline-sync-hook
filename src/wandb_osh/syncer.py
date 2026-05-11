@@ -118,5 +118,7 @@ def sync_dir(
         return
     _timeout = None if timeout <= 0 else timeout
     env = os.environ.copy()
-    env.update({"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"})
+    env.update(
+        {"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}
+    )
     subprocess.run(command, cwd=dir, timeout=_timeout, env=env)
