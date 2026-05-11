@@ -78,7 +78,9 @@ class WandbSyncer:
                         try:
                             future.result()
                         except subprocess.TimeoutExpired:
-                            logger.warning("Syncing %s timed out. Trying later.", target)
+                            logger.warning(
+                                "Syncing %s timed out. Trying later.", target
+                            )
                             from wandb_osh.hooks import TriggerWandbSyncHook
 
                             TriggerWandbSyncHook(self.command_dir)(target)
