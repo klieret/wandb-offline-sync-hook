@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import subprocess
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from os import PathLike
 from pathlib import Path
 
@@ -52,33 +53,41 @@ class WandbSyncer:
         while True:
             start_time = time.time()
             self.command_dir.mkdir(parents=True, exist_ok=True)
-            command_files = []
-            targets = []
+            target_to_cfs: dict[Path, list[Path]] = {}
             for command_file in self.command_dir.glob("*.command"):
                 target = Path(command_file.read_text())
-                command_files.append(command_file)
                 if not target.is_dir():
                     logger.error(
                         "Command file %s points to non-existing directory %s",
                         command_file,
                         target,
                     )
+                    if command_file.is_file():
+                        command_file.unlink()
                     continue
-                targets.append(target)
-            for target in set(targets):
-                logger.info("Syncing %s...", target)
-                try:
-                    self.sync(target)
-                except subprocess.TimeoutExpired:
-                    # try again later
-                    logger.warning("Syncing %s timed out. Trying later.", target)
-                    from wandb_osh.hooks import TriggerWandbSyncHook
+                target_to_cfs.setdefault(target, []).append(command_file)
+            timed_out_targets: set[Path] = set()
+            if target_to_cfs:
+                with ThreadPoolExecutor() as executor:
+                    future_to_target = {}
+                    for target in target_to_cfs:
+                        logger.info("Syncing %s...", target)
+                        future_to_target[executor.submit(self.sync, target)] = target
+                    for future in as_completed(future_to_target):
+                        target = future_to_target[future]
+                        try:
+                            future.result()
+                        except subprocess.TimeoutExpired:
+                            logger.warning("Syncing %s timed out. Trying later.", target)
+                            from wandb_osh.hooks import TriggerWandbSyncHook
 
-                    TriggerWandbSyncHook(self.command_dir)(target)
-            time.sleep(0.25)
-            for cf in command_files:
-                if cf.is_file():
-                    cf.unlink()
+                            TriggerWandbSyncHook(self.command_dir)(target)
+                            timed_out_targets.add(target)
+            for target, cfs in target_to_cfs.items():
+                if target not in timed_out_targets:
+                    for cf in cfs:
+                        if cf.is_file():
+                            cf.unlink()
             if "PYTEST_CURRENT_TEST" in os.environ:
                 break
             time.sleep(max(0.0, (time.time() - start_time) - self.wait))
