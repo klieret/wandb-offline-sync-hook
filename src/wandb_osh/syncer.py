@@ -20,6 +20,7 @@ class WandbSyncer:
         wandb_options: list[str] | None = None,
         *,
         timeout: int | float = 120,
+        max_workers: int = 4,
     ):
         """Class for interpreting command files and triggering
         `wandb sync`.
@@ -29,6 +30,7 @@ class WandbSyncer:
             wait: Minimal time to wait before scanning command dir again
             wandb_options: Options to pass on to wandb
             timeout: Timeout for wandb sync. If <=0, no timeout.
+            max_workers: Maximum number of concurrent wandb sync processes.
         """
         if wandb_options is None:
             wandb_options = []
@@ -36,6 +38,7 @@ class WandbSyncer:
         self.wait = wait
         self.wandb_options = wandb_options
         self._timeout = timeout
+        self._max_workers = max_workers
 
     def sync(self, dir: PathLike) -> None:
         """Sync a directory. Thin wrapper around the `sync_dir` function.
@@ -68,7 +71,7 @@ class WandbSyncer:
                 target_to_cfs.setdefault(target, []).append(command_file)
             timed_out_targets: set[Path] = set()
             if target_to_cfs:
-                with ThreadPoolExecutor() as executor:
+                with ThreadPoolExecutor(max_workers=self._max_workers) as executor:
                     future_to_target = {}
                     for target in target_to_cfs:
                         logger.info("Syncing %s...", target)
@@ -114,4 +117,6 @@ def sync_dir(
         logger.debug("Command would be: %s in %s", " ".join(command), dir)
         return
     _timeout = None if timeout <= 0 else timeout
-    subprocess.run(command, cwd=dir, timeout=_timeout)
+    env = os.environ.copy()
+    env.update({"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"})
+    subprocess.run(command, cwd=dir, timeout=_timeout, env=env)
