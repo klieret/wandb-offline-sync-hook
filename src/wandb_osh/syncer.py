@@ -18,7 +18,7 @@ class WandbSyncer:
         wait: int = 1,
         wandb_options: list[str] | None = None,
         *,
-        timeout: int | float = 120,
+        timeout: float = 120,
     ):
         """Class for interpreting command files and triggering
         `wandb sync`.
@@ -85,7 +85,7 @@ class WandbSyncer:
 
 
 def sync_dir(
-    dir: PathLike, options: list[str] | None = None, *, timeout: int | float = 0
+    dir: PathLike, options: list[str] | None = None, *, timeout: float = 0
 ) -> None:
     """Call wandb sync on a directory.
 

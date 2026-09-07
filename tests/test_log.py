@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import logging
 
-from wandb_osh.util.log import get_logger, logger
 from wandb_osh import set_log_level
+from wandb_osh.util.log import get_logger, logger
 
 
 def test_logger():

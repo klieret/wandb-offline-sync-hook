@@ -5,7 +5,6 @@ from os import PathLike
 from wandb_osh.hooks import TriggerWandbSyncHook, _comm_default_dir
 from wandb_osh.util.log import logger
 
-
 # See #96
 # Possible additional issues: If both imports are working, the wrong one might be used.
 try:
