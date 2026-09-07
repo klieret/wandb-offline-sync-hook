@@ -5,7 +5,7 @@ import logging
 import pytest
 
 _ray = pytest.importorskip("ray")
-from wandb_osh.ray_hooks import TriggerWandbSyncRayHook  # noqa: E402
+from wandb_osh.ray_hooks import TriggerWandbSyncRayHook
 
 
 class MockTrial:
