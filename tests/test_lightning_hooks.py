@@ -7,7 +7,7 @@ import wandb
 
 _ray = pytest.importorskip("lightning")
 
-from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback  # noqa: E402
+from wandb_osh.lightning_hooks import TriggerWandbSyncLightningCallback
 
 
 def test_manual_trigger(tmp_path):
